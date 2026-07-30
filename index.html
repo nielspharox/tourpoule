@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TOUR DU NORISKNOFUN — de poule-archieven</title>
-<meta name="description" content="De uitslagen van 6 jaargangen Tourpoule tussen Niels en Mutti, plus het algemeen klassement over alle jaren heen.">
+<meta name="description" content="De uitslagen van 6 jaargangen Tourpoule tussen Niels en Mutti, plus het eeuwig klassement over alle jaren heen.">
 <style>
   :root{
     --chalk:#f3ede0;
@@ -59,7 +59,7 @@
   .masthead-meta b{color:var(--ink);}
 
   /* year tabs */
-  .year-tabs{display:flex;gap:8px;margin-bottom:22px;}
+  .year-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;}
   .year-tab{
     font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:0.05em;
     font-size:15px;padding:9px 18px;background:transparent;border:2px solid var(--ink);color:var(--ink);
@@ -100,7 +100,7 @@
   .jersey-banner .label-text{position:relative;z-index:1;}
   .jersey-banner.jb-geel{background:var(--gold);color:var(--ink);}
   .jersey-banner.jb-groen{background:var(--green);color:#fff;}
-  .jersey-banner.jb-wit{background:#fdfdf9;color:var(--ink);border-bottom:3px solid #d8d8d0;}
+  .jersey-banner.jb-wit{background:#f5f2ea;color:var(--ink);border-bottom:3px solid var(--steel);}
   .jersey-banner.jb-strijd{background:var(--red);color:#fff;}
   .jersey-banner.jb-nlbonus{background:var(--orange);color:var(--ink);}
   .jersey-banner.jb-bollen{background:#fff;color:var(--red);border-bottom:3px solid var(--red);}
@@ -115,6 +115,7 @@
     background:var(--chalk);border:1px dashed var(--chalk-dim);padding:8px 10px;
   }
   .actual-top b{color:var(--steel);font-family:var(--font-display);letter-spacing:0.06em;font-size:10px;text-transform:uppercase;font-weight:700;margin-right:6px;}
+  .actual-top.prose{font-family:var(--font-body);font-size:14px;line-height:1.5;}
 
   .cols{display:grid;gap:12px;margin-top:12px;overflow-x:auto;}
   .cols-2{grid-template-columns:repeat(2,minmax(220px,1fr));}
@@ -168,16 +169,12 @@
 
   .footnote{text-align:center;font-family:var(--font-mono);font-size:11px;color:var(--steel);margin-top:34px;}
 
-  /* algemeen klassement */
+  /* eeuwig klassement */
   .gc-hero .hero-winner{display:inline-flex;align-items:center;gap:8px;}
   .gc-hero .hero-winner .jshirt{filter:none;}
   .gc-chart-wrap{overflow-x:auto;margin-top:14px;}
   .gc-chart-wrap svg{display:block;min-width:600px;}
-  .chart-zero{stroke:#454c5e;stroke-width:1.5;stroke-dasharray:4 4;}
-  .chart-line{fill:none;stroke:#9aa3b5;stroke-width:2;}
   .chart-year{font-family:var(--font-mono);font-size:11px;fill:#9aa3b5;text-anchor:middle;}
-  .chart-final{font-family:var(--font-display);font-weight:800;font-size:13px;letter-spacing:0.02em;}
-  .chart-zone{font-family:var(--font-display);font-size:9px;letter-spacing:0.08em;fill:#6b7386;text-transform:uppercase;}
   .legend-riders{display:flex;gap:16px;margin-top:10px;font-family:var(--font-mono);font-size:12px;color:#c7cede;}
   .legend-riders span{display:inline-flex;align-items:center;gap:6px;}
   .legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
@@ -255,7 +252,7 @@
           </symbol>
         </defs>
       </svg>
-      <div class="jerseys" title="Geel · Groen · Bollen · Wit · Regenboog (algemeen klassement)">
+      <div class="jerseys" title="Geel · Groen · Bollen · Wit · Regenboog (eeuwig klassement)">
         <svg class="jshirt" viewBox="0 0 24 28" width="22" height="26"><use href="#tshirt" fill="#e8ac1f" stroke="#1c2130" stroke-width="1.2"/></svg>
         <svg class="jshirt" viewBox="0 0 24 28" width="22" height="26"><use href="#tshirt" fill="#2f9e59" stroke="#1c2130" stroke-width="1.2"/></svg>
         <svg class="jshirt" viewBox="0 0 24 28" width="22" height="26"><use href="#tshirt" fill="url(#tdfPolka)" stroke="#c93f3f" stroke-width="1.2"/></svg>
@@ -730,7 +727,7 @@
     if(c.single){
       html += '<div class="class-sub">werkelijke winnaar: '+c.actualWinnerName+'</div>';
     } else if(c.bonus){
-      html += '<div class="actual-top">'+c.note+'</div>';
+      html += '<div class="actual-top prose">'+c.note+'</div>';
     } else if(c.actualTop){
       html += '<div class="actual-top"><b>werkelijke top</b>'+c.actualTop.join(' · ')+(c.actualNote?' <span style="color:#b6a58a">'+c.actualNote+'</span>':'')+'</div>';
     }
@@ -751,17 +748,11 @@
     var d = DATA[y];
     var totalsSorted = d.totals.slice().sort(function(a,b){return b.pts - a.pts;});
     var winner = totalsSorted[0];
-    var runnerUp = totalsSorted[1];
-    var margin = winner.pts - runnerUp.pts;
 
     var html = '<div class="section hero">';
     html += '<div class="hero-row"><span class="hero-winner">'+winner.name+' wint '+d.year+'</span>'+
       '<span class="hero-score">'+totalsSorted.map(function(t){return (t===winner?'<span class="lead">'+t.pts+'</span>':t.pts)+' ('+t.name+')';}).join(' — ')+'</span></div>';
-    if(d.note){
-      html += '<div class="hero-note">'+d.note+'</div>';
-    } else {
-      html += '<div class="hero-note">Verschil met nummer 2: '+margin+' punten.</div>';
-    }
+    html += '<div class="hero-note">'+d.note+'</div>';
     html += '</div>';
 
     d.classifications.forEach(function(c){ html += renderClass(c); });
@@ -770,13 +761,6 @@
   }
 
   var CHRONOLOGICAL = [2021, 2022, 2023, 2024, 2025, 2026];
-
-  function climbLineSet(series, key, color){
-    return {
-      color: color,
-      dots: series.map(function(p,i){ return {x:i, v:p[key]}; })
-    };
-  }
 
   function buildClimb(series, opts){
     opts = opts || {};
@@ -851,7 +835,7 @@
   function renderMetaCard(key, label, sums){
     var winner = sums.Niels === sums.Mutti ? null : (sums.Niels > sums.Mutti ? 'Niels' : 'Mutti');
     var html = '<div class="class-card'+(key==='bollen'?' card-xl':'')+'">';
-    html += '<div class="jersey-banner jb-'+key+'"><span class="label-text">'+label+' — algemeen</span></div>';
+    html += '<div class="jersey-banner jb-'+key+'"><span class="label-text">'+label+' — eeuwig</span></div>';
     html += '<div class="meta-years">meegeteld in: '+sums.years.join(', ')+'</div>';
     if(winner === null){
       html += '<div class="tie-banner">🤝 Gelijkspel — '+sums.Niels+' om '+sums.Mutti+'</div>';
@@ -893,10 +877,10 @@
 
   function renderTruiStrip(gcWinner, subSums){
     var chips = [
-      {key:'geel', label:'Geel — algemeen', jc:'var(--gold)'},
-      {key:'groen', label:'Groen — algemeen', jc:'var(--green)'},
-      {key:'bollen', label:'Bollen — algemeen', jc:'var(--red)'},
-      {key:'wit', label:'Wit — algemeen', jc:'#cfcfc7'}
+      {key:'geel', label:'Geel', jc:'var(--gold)'},
+      {key:'groen', label:'Groen', jc:'var(--green)'},
+      {key:'bollen', label:'Bollen', jc:'var(--red)'},
+      {key:'wit', label:'Wit', jc:'#cfcfc7'}
     ];
     var html = '<div class="trui-strip">';
     chips.forEach(function(c){
@@ -911,7 +895,7 @@
         '</div>';
     });
     html += '<div class="trui-chip tc-rainbow">'+
-      '<div class="trui-label">Algemeen — regenboog</div>'+
+      '<div class="trui-label">Regenboog</div>'+
       '<div class="trui-who"><span class="trui-dot" style="background:'+(gcWinner==='Niels'?'var(--niels)':'var(--mutti)')+'"></span>'+gcWinner+jerseyIcon('rainbow',13,16)+'</div>'+
       '<div class="trui-stat">6 etappes</div>'+
       '</div>';
@@ -919,7 +903,7 @@
     return html;
   }
 
-  function renderAlgemeen(){
+  function renderEeuwig(){
     var cum = {Niels:0, Mutti:0};
     var points = [];
     CHRONOLOGICAL.forEach(function(y){
@@ -968,7 +952,7 @@
     });
 
     var html = '<div class="section hero gc-hero">';
-    html += '<div class="hero-row"><span class="hero-winner">'+gcWinner+' leidt het algemeen klassement '+rainbowSvg(24,29)+'</span>'+
+    html += '<div class="hero-row"><span class="hero-winner">'+gcWinner+' leidt het eeuwig klassement '+rainbowSvg(24,29)+'</span>'+
       '<span class="hero-score"><span class="lead">'+(gcWinner==='Niels'?finalP.cumNiels:finalP.cumMutti)+'</span> — '+(gcWinner==='Niels'?finalP.cumMutti:finalP.cumNiels)+' ('+(gcWinner==='Niels'?'Mutti':'Niels')+')</span></div>';
     html += '<div class="hero-note">Optelsom van alle 6 jaargangen (2021 t/m 2026) — elke jaargang telt als één etappe. '+gcWinner+' leidt met '+gcMargin+' punten verschil.</div>';
     html += '<div class="legend-riders"><span><span class="legend-dot" style="background:var(--niels)"></span>Niels</span><span><span class="legend-dot" style="background:var(--mutti)"></span>Mutti</span></div>';
@@ -980,7 +964,7 @@
 
     html += '<div class="section"><p class="eyebrow">Etappe-uitslagen</p><div class="table-scroll"><table class="etappe-table">'+etappeRows+'</table></div></div>';
 
-    html += '<div class="section"><p class="eyebrow">Subcategorieën — algemeen (wie boven eindigt, krijgt de trui)</p>';
+    html += '<div class="section"><p class="eyebrow">Subcategorieën</p>';
     subKeys.forEach(function(sk){ html += renderMetaCard(sk.key, sk.label, subSums[sk.key]); });
     html += '</div>';
 
@@ -988,7 +972,7 @@
   }
 
   var years = [2026, 2025, 2024, 2023, 2022, 2021];
-  var allIds = ['algemeen'].concat(years);
+  var allIds = ['eeuwig'].concat(years);
   var tabsEl = document.querySelector('.year-tabs');
   var panelsEl = document.getElementById('panels');
   var tabEls = [];
@@ -998,15 +982,15 @@
     tab.className = 'year-tab';
     tab.setAttribute('role','tab');
     tab.setAttribute('aria-selected', 'false');
-    tab.innerHTML = RAINBOW_SVG + '<span class="sub">algemeen</span>';
-    tab.addEventListener('click', function(){ selectYear('algemeen'); });
+    tab.innerHTML = RAINBOW_SVG + '<span class="sub">eeuwig</span>';
+    tab.addEventListener('click', function(){ selectYear('eeuwig'); });
     tabsEl.appendChild(tab);
     tabEls.push(tab);
 
     var panel = document.createElement('div');
     panel.className = 'year-panel';
-    panel.id = 'panel-algemeen';
-    panel.innerHTML = renderAlgemeen();
+    panel.id = 'panel-eeuwig';
+    panel.innerHTML = renderEeuwig();
     panelsEl.appendChild(panel);
   })();
 
