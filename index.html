@@ -123,7 +123,7 @@
   .col.winner{border-color:var(--green);background:rgba(47,158,89,0.06);}
   .col-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
   .col-name{font-weight:700;font-size:15.5px;}
-  .col.winner .col-name::after{content:" 🏆";}
+  .col-name .jshirt{margin-left:5px;}
   .col-sub{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--gold-dim);font-variant-numeric:tabular-nums;}
   .pick-row{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--chalk-dim);font-size:14px;}
   .pick-row:last-child{border-bottom:none;}
@@ -182,6 +182,25 @@
   .legend-riders span{display:inline-flex;align-items:center;gap:6px;}
   .legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
 
+  /* trui-strip: jersey chips, port of the original brainstorm mockup */
+  .trui-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  .trui-chip{
+    background:var(--asphalt);color:var(--chalk);padding:10px 11px;
+    clip-path:polygon(0 6px,6px 6px,6px 0,calc(100% - 6px) 0,calc(100% - 6px) 6px,100% 6px,100% calc(100% - 6px),calc(100% - 6px) calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,6px calc(100% - 6px),0 calc(100% - 6px));
+    border-top:4px solid var(--tc,var(--gold));
+  }
+  .trui-chip.tc-rainbow{border-top:4px solid transparent;border-image:linear-gradient(90deg,#1f5fbf,#d3323a,#1c2130,#f0c419,#2f9e59) 1;}
+  .trui-chip .trui-label{font-family:var(--font-display);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--tc,var(--gold));font-weight:700;margin-bottom:5px;}
+  .trui-chip .trui-who{font-size:14.5px;font-weight:700;display:flex;align-items:center;gap:5px;}
+  .trui-chip .trui-stat{font-family:var(--font-mono);font-size:11px;color:#b7bdcc;margin-top:2px;}
+  .trui-dot{width:9px;height:9px;border-radius:50%;flex:none;}
+
+  /* bicycle icons on the road */
+  .bike-icon{flex:none;}
+  .road-label{font-family:var(--font-display);font-weight:800;font-size:12px;letter-spacing:0.02em;text-anchor:middle;}
+  .road-gap{font-family:var(--font-mono);font-size:11px;text-anchor:middle;}
+  .road-flag-text{font-family:var(--font-mono);font-size:10px;fill:#9aa3b5;}
+
   .etappe-table{width:100%;border-collapse:collapse;margin-top:4px;}
   .etappe-table td{padding:8px 10px;border-bottom:1px solid var(--chalk-dim);font-size:14.5px;}
   .etappe-table td.et-year{font-family:var(--font-mono);font-weight:700;color:var(--steel);width:50px;}
@@ -202,6 +221,7 @@
     .card-xl .jersey-banner{font-size:21px;}
     .card-xl .col-name{font-size:18px;}
     .card-xl .pick-row{font-size:16px;}
+    .trui-strip{grid-template-columns:repeat(2,1fr);}
   }
 </style>
 </head>
@@ -218,6 +238,12 @@
           </pattern>
           <path id="tshirt" d="M8,2 L4,2 L1,7 L4,10 L4,26 L20,26 L20,10 L23,7 L20,2 L16,2 C16,4.2 14.2,5.6 12,5.6 C9.8,5.6 8,4.2 8,2 Z"/>
           <clipPath id="tshirtClip"><use href="#tshirt"/></clipPath>
+          <symbol id="bike" viewBox="0 0 24 24">
+            <circle cx="5.5" cy="17.5" r="4.3" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="18.5" cy="17.5" r="4.3" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M5.5,17.5 L10.3,8 L15,17.5 M10.3,8 L13.6,8 M15,17.5 L18.5,17.5 M10.3,8 L7,17.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="13.6" cy="6" r="1.3" fill="currentColor"/>
+          </symbol>
         </defs>
       </svg>
       <div class="jerseys" title="Geel · Groen · Bollen · Wit · Regenboog (algemeen klassement)">
@@ -633,6 +659,31 @@
     }
   };
 
+  function rainbowSvg(w, h){
+    w = w || 20; h = h || 24;
+    return '<svg class="jshirt" viewBox="0 0 24 28" width="'+w+'" height="'+h+'" style="vertical-align:middle">'+
+      '<use href="#tshirt" fill="#fdfdf9" stroke="#1c2130" stroke-width="1.2"/>'+
+      '<g clip-path="url(#tshirtClip)">'+
+      '<rect x="0" y="9" width="24" height="2" fill="#1f5fbf"/>'+
+      '<rect x="0" y="11" width="24" height="2" fill="#d3323a"/>'+
+      '<rect x="0" y="13" width="24" height="2" fill="#1c2130"/>'+
+      '<rect x="0" y="15" width="24" height="2" fill="#f0c419"/>'+
+      '<rect x="0" y="17" width="24" height="2" fill="#2f9e59"/>'+
+      '</g></svg>';
+  }
+  var RAINBOW_SVG = rainbowSvg();
+
+  function jerseyIcon(type, w, h){
+    w = w || 15; h = h || 18;
+    if(type === 'rainbow') return rainbowSvg(w, h);
+    if(type === 'bollen'){
+      return '<svg class="jshirt" viewBox="0 0 24 28" width="'+w+'" height="'+h+'" style="vertical-align:middle"><use href="#tshirt" fill="url(#tdfPolka)" stroke="#c93f3f" stroke-width="1.2"/></svg>';
+    }
+    var fills = { geel:'#e8ac1f', groen:'#2f9e59', wit:'#fdfdf9', strijd:'#c93f3f', nlbonus:'#f2790a' };
+    var fill = fills[type] || '#cccccc';
+    return '<svg class="jshirt" viewBox="0 0 24 28" width="'+w+'" height="'+h+'" style="vertical-align:middle"><use href="#tshirt" fill="'+fill+'" stroke="#1c2130" stroke-width="1.2"/></svg>';
+  }
+
   function posPill(pos, hit){
     if(pos === null || pos === undefined) return '<span class="pos-pill x">x</span>';
     return '<span class="pos-pill'+(hit?' hit':'')+'">'+pos+'e</span>';
@@ -645,7 +696,7 @@
     return '<span class="pos-pill'+(hit?' hit':' x')+'">'+(hit?'✓ ritzege':'geen ritzege')+'</span>';
   }
 
-  function renderCol(col, isWinner, isBonus){
+  function renderCol(col, isWinner, isBonus, jerseyType){
     var rows = col.rows.map(function(r, i){
       var hit = r.pts !== undefined && r.pts >= 15;
       var marker = isBonus ? bonusPill(!!r.hit) : posPill(r.pos, hit);
@@ -656,8 +707,9 @@
         ptsPill(r.pts)+
         '</div>';
     }).join('');
+    var nameMarkup = col.name + (isWinner && jerseyType ? jerseyIcon(jerseyType) : '');
     return '<div class="col'+(isWinner?' winner':'')+'">'+
-      '<div class="col-head"><span class="col-name">'+col.name+'</span><span class="col-sub">'+col.subtotal+' pt</span></div>'+
+      '<div class="col-head"><span class="col-name">'+nameMarkup+'</span><span class="col-sub">'+col.subtotal+' pt</span></div>'+
       rows+
       '</div>';
   }
@@ -679,7 +731,7 @@
     }
     html += '<div class="cols '+colsClass+'">';
     c.cols.forEach(function(col){
-      html += renderCol(col, col.name === c.winner, !!c.bonus);
+      html += renderCol(col, col.name === c.winner, !!c.bonus, c.jersey);
     });
     html += '</div>';
     html += '</div>';
@@ -708,17 +760,31 @@
     return html;
   }
 
-  var RAINBOW_SVG = '<svg class="jshirt" viewBox="0 0 24 28" width="20" height="24" style="vertical-align:middle">'+
-    '<use href="#tshirt" fill="#fdfdf9" stroke="#1c2130" stroke-width="1.2"/>'+
-    '<g clip-path="url(#tshirtClip)">'+
-    '<rect x="0" y="9" width="24" height="2" fill="#1f5fbf"/>'+
-    '<rect x="0" y="11" width="24" height="2" fill="#d3323a"/>'+
-    '<rect x="0" y="13" width="24" height="2" fill="#1c2130"/>'+
-    '<rect x="0" y="15" width="24" height="2" fill="#f0c419"/>'+
-    '<rect x="0" y="17" width="24" height="2" fill="#2f9e59"/>'+
-    '</g></svg>';
-
   var CHRONOLOGICAL = [2021, 2022, 2023, 2024, 2025, 2026];
+
+  function trendChartSvg(series){
+    var W=340, H=110, marginX=26, topPad=12, botPad=20;
+    var n = series.length;
+    var stepX = n > 1 ? (W-2*marginX)/(n-1) : 0;
+    var maxV = Math.max.apply(null, series.map(function(p){ return Math.max(p.cumNiels, p.cumMutti); }));
+    function xFor(i){ return marginX + i*stepX; }
+    function yFor(v){ return topPad + (1 - v/(maxV*1.08)) * (H-topPad-botPad); }
+
+    var nielsPath = series.map(function(p,i){ return (i===0?'M':'L')+xFor(i).toFixed(1)+','+yFor(p.cumNiels).toFixed(1); }).join(' ');
+    var muttiPath = series.map(function(p,i){ return (i===0?'M':'L')+xFor(i).toFixed(1)+','+yFor(p.cumMutti).toFixed(1); }).join(' ');
+    var dots = series.map(function(p,i){
+      var x = xFor(i);
+      return '<circle cx="'+x.toFixed(1)+'" cy="'+yFor(p.cumNiels).toFixed(1)+'" r="3" fill="var(--niels)"/>'+
+        '<circle cx="'+x.toFixed(1)+'" cy="'+yFor(p.cumMutti).toFixed(1)+'" r="3" fill="var(--mutti)"/>'+
+        '<text x="'+x.toFixed(1)+'" y="'+(H-6)+'" class="chart-year" style="font-size:9px">'+p.year+'</text>';
+    }).join('');
+
+    return '<div class="gc-chart-wrap"><svg viewBox="0 0 '+W+' '+H+'">'+
+      '<path d="'+nielsPath+'" fill="none" stroke="var(--niels)" stroke-width="2"/>'+
+      '<path d="'+muttiPath+'" fill="none" stroke="var(--mutti)" stroke-width="2"/>'+
+      dots+
+      '</svg></div>';
+  }
 
   function renderMetaCard(key, label, sums){
     var winner = sums.Niels === sums.Mutti ? null : (sums.Niels > sums.Mutti ? 'Niels' : 'Mutti');
@@ -730,12 +796,84 @@
     }
     html += '<div class="cols cols-2">';
     ['Mutti','Niels'].forEach(function(name){
+      var nameMarkup = name + (name===winner ? jerseyIcon(key) : '');
       html += '<div class="col col-meta'+(name===winner?' winner':'')+'">'+
-        '<div class="col-head" style="justify-content:center"><span class="col-name">'+name+'</span></div>'+
+        '<div class="col-head" style="justify-content:center"><span class="col-name">'+nameMarkup+'</span></div>'+
         '<div class="col-meta-num">'+sums[name]+' pt</div>'+
         '</div>';
     });
-    html += '</div></div>';
+    html += '</div>';
+    html += trendChartSvg(sums.series);
+    html += '</div>';
+    return html;
+  }
+
+  function renderRoad(points, finalP, gcWinner, gcMargin){
+    var W=780, H=210;
+    var roadY=150, roadH=32;
+    var marginX=40;
+    var stepX = (W-2*marginX)/(CHRONOLOGICAL.length-1);
+    function xFor(i){ return marginX + i*stepX; }
+
+    var ticks = points.map(function(p,i){
+      var x = xFor(i);
+      var color = p.winner==='Niels' ? 'var(--niels)' : 'var(--mutti)';
+      return '<circle cx="'+x+'" cy="'+(roadY-14)+'" r="4" fill="'+color+'"/>'+
+        '<text x="'+x+'" y="'+(H-8)+'" class="chart-year">'+p.year+'</text>';
+    }).join('');
+
+    var maxAbs = Math.max.apply(null, points.map(function(p){ return Math.abs(p.gap); }));
+    var leaderX = W - marginX - 50;
+    var backPixels = Math.min((Math.abs(finalP.gap)/maxAbs) * (W-2*marginX) * 0.55, W-2*marginX-60);
+    var trailX = leaderX - backPixels;
+    var leaderColor = gcWinner==='Niels' ? 'var(--niels)' : 'var(--mutti)';
+    var trailColor = gcWinner==='Niels' ? 'var(--mutti)' : 'var(--niels)';
+    var trailName = gcWinner==='Niels' ? 'Mutti' : 'Niels';
+
+    var riders = ''+
+      '<text x="'+trailX+'" y="'+(roadY-42)+'" text-anchor="middle" class="road-label" fill="'+trailColor+'">'+trailName+'</text>'+
+      '<use href="#bike" x="'+(trailX-15)+'" y="'+(roadY-36)+'" width="30" height="30" style="color:'+trailColor+'"/>'+
+      '<text x="'+leaderX+'" y="'+(roadY-42)+'" text-anchor="middle" class="road-label" fill="'+leaderColor+'">'+gcWinner+'</text>'+
+      '<use href="#bike" x="'+(leaderX-15)+'" y="'+(roadY-36)+'" width="30" height="30" style="color:'+leaderColor+'"/>'+
+      '<text x="'+((leaderX+trailX)/2)+'" y="'+(roadY-2)+'" text-anchor="middle" class="road-gap" fill="'+leaderColor+'">+'+gcMargin+'</text>';
+
+    return '<div class="gc-chart-wrap"><svg viewBox="0 0 '+W+' '+H+'">'+
+      '<polygon points="0,'+(roadY-25)+' 90,'+(roadY-70)+' 170,'+(roadY-25)+' 260,'+(roadY-85)+' 360,'+(roadY-30)+' 460,'+(roadY-65)+' 560,'+(roadY-30)+' 650,'+(roadY-70)+' '+W+','+(roadY-35)+' '+W+','+roadY+' 0,'+roadY+'" fill="var(--asphalt-2)"/>'+
+      '<rect x="0" y="'+roadY+'" width="'+W+'" height="'+roadH+'" fill="#171a21"/>'+
+      '<line x1="14" y1="'+(roadY+roadH/2)+'" x2="'+(W-14)+'" y2="'+(roadY+roadH/2)+'" stroke="var(--gold)" stroke-width="2" stroke-dasharray="10 8" opacity="0.55"/>'+
+      '<rect x="8" y="'+(roadY-18)+'" width="3" height="'+(roadH+18)+'" fill="#f3ede0"/><rect x="11" y="'+(roadY-18)+'" width="10" height="8" fill="#1c2130"/>'+
+      '<rect x="'+(W-14)+'" y="'+(roadY-24)+'" width="3" height="'+(roadH+24)+'" fill="#f3ede0"/><rect x="'+(W-11)+'" y="'+(roadY-24)+'" width="12" height="10" fill="#f3ede0"/><rect x="'+(W-11)+'" y="'+(roadY-24)+'" width="4" height="4" fill="#1c2130"/><rect x="'+(W-3)+'" y="'+(roadY-20)+'" width="4" height="4" fill="#1c2130"/>'+
+      ticks+
+      riders+
+      '<text x="12" y="'+(roadY+roadH+16)+'" class="road-flag-text">GRAND DÉPART 2021</text>'+
+      '<text x="'+(W-12)+'" y="'+(roadY+roadH+16)+'" text-anchor="end" class="road-flag-text">EINDSTAND NA 2026</text>'+
+      '</svg></div>';
+  }
+
+  function renderTruiStrip(gcWinner, subSums){
+    var chips = [
+      {key:'geel', label:'Geel — algemeen', jc:'var(--gold)'},
+      {key:'groen', label:'Groen — algemeen', jc:'var(--green)'},
+      {key:'bollen', label:'Bollen — algemeen', jc:'var(--red)'},
+      {key:'wit', label:'Wit — algemeen', jc:'#cfcfc7'}
+    ];
+    var html = '<div class="trui-strip">';
+    chips.forEach(function(c){
+      var s = subSums[c.key];
+      var winner = s.Niels===s.Mutti ? 'Gelijkspel' : (s.Niels>s.Mutti?'Niels':'Mutti');
+      var dotColor = winner==='Niels' ? 'var(--niels)' : (winner==='Mutti' ? 'var(--mutti)' : '#999');
+      html += '<div class="trui-chip" style="--tc:'+c.jc+'">'+
+        '<div class="trui-label">'+c.label+'</div>'+
+        '<div class="trui-who">'+(winner==='Gelijkspel'?'':'<span class="trui-dot" style="background:'+dotColor+'"></span>')+winner+'</div>'+
+        '<div class="trui-stat">'+s.Niels+' — '+s.Mutti+' pt</div>'+
+        '</div>';
+    });
+    html += '<div class="trui-chip tc-rainbow">'+
+      '<div class="trui-label">Algemeen — regenboog</div>'+
+      '<div class="trui-who"><span class="trui-dot" style="background:'+(gcWinner==='Niels'?'var(--niels)':'var(--mutti)')+'"></span>'+gcWinner+'</div>'+
+      '<div class="trui-stat">6 etappes</div>'+
+      '</div>';
+    html += '</div>';
     return html;
   }
 
@@ -761,34 +899,9 @@
     var gcWinner = finalP.gap >= 0 ? 'Niels' : 'Mutti';
     var gcMargin = Math.abs(finalP.gap);
 
-    var W=780, H=210, marginX=50, centerY=105;
-    var stepX = (W - 2*marginX) / (CHRONOLOGICAL.length-1);
-    var maxAbs = Math.max.apply(null, points.map(function(p){ return Math.abs(p.gap); }));
-    var scale = 85 / (maxAbs*1.15);
-    function xFor(i){ return marginX + i*stepX; }
-    function yFor(gap){ return centerY - gap*scale; }
-
-    var pathD = points.map(function(p,i){ return (i===0?'M':'L')+xFor(i).toFixed(1)+','+yFor(p.gap).toFixed(1); }).join(' ');
-    var dotsSvg = points.map(function(p,i){
-      var x=xFor(i), y=yFor(p.gap);
-      var color = p.gap >= 0 ? 'var(--niels)' : 'var(--mutti)';
-      return '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="5" fill="'+color+'" stroke="#fff" stroke-width="1.5"/>'+
-        '<text x="'+x.toFixed(1)+'" y="'+(H-14)+'" class="chart-year">'+p.year+'</text>';
-    }).join('');
-    var finalX = xFor(CHRONOLOGICAL.length-1), finalY = yFor(finalP.gap);
-    var finalLabel = '<text x="'+finalX.toFixed(1)+'" y="'+(finalY + (finalP.gap>=0?-12:20)).toFixed(1)+'" text-anchor="middle" class="chart-final" fill="'+(finalP.gap>=0?'var(--niels)':'var(--mutti)')+'">'+gcWinner+' +'+gcMargin+'</text>';
-
-    var chartSvg = '<div class="gc-chart-wrap"><svg viewBox="0 0 '+W+' '+H+'">'+
-      '<text x="'+marginX+'" y="16" class="chart-zone">Niels voor</text>'+
-      '<text x="'+marginX+'" y="'+(H-2)+'" class="chart-zone">Mutti voor</text>'+
-      '<line x1="'+marginX+'" y1="'+centerY+'" x2="'+(W-marginX)+'" y2="'+centerY+'" class="chart-zero"/>'+
-      '<path d="'+pathD+'" class="chart-line"/>'+
-      dotsSvg+
-      finalLabel+
-      '</svg></div>';
-
     var etappeRows = points.map(function(p){
-      return '<tr><td class="et-year">'+p.year+'</td><td>'+p.scoreText+'</td><td class="et-score">gat: '+(p.gap>=0?'Niels +':'Mutti +')+Math.abs(p.gap)+'</td></tr>';
+      var dotColor = p.winner==='Niels' ? 'var(--niels)' : 'var(--mutti)';
+      return '<tr><td class="et-year">'+p.year+'</td><td><span class="legend-dot" style="background:'+dotColor+';margin-right:6px"></span>'+p.scoreText+'</td><td class="et-score">gat: '+(p.gap>=0?'Niels +':'Mutti +')+Math.abs(p.gap)+'</td></tr>';
     }).join('');
 
     var subKeys = [
@@ -798,26 +911,33 @@
       {key:'wit', label:'Wit'}
     ];
     var subSums = {};
-    subKeys.forEach(function(sk){ subSums[sk.key] = {Niels:0, Mutti:0, years:[]}; });
+    subKeys.forEach(function(sk){ subSums[sk.key] = {Niels:0, Mutti:0, years:[], series:[]}; });
     CHRONOLOGICAL.forEach(function(y){
       DATA[y].classifications.forEach(function(c){
         if(c.bonus || c.single || !subSums[c.key]) return;
-        c.cols.forEach(function(col){ subSums[c.key][col.name] += col.subtotal; });
+        var byName = {};
+        c.cols.forEach(function(col){ byName[col.name] = col.subtotal; });
+        subSums[c.key].Niels += byName.Niels || 0;
+        subSums[c.key].Mutti += byName.Mutti || 0;
         subSums[c.key].years.push(y);
+        subSums[c.key].series.push({ year:y, cumNiels:subSums[c.key].Niels, cumMutti:subSums[c.key].Mutti });
       });
     });
 
     var html = '<div class="section hero gc-hero">';
-    html += '<div class="hero-row"><span class="hero-winner">'+RAINBOW_SVG+' '+gcWinner+' leidt het algemeen klassement</span>'+
+    html += '<div class="hero-row"><span class="hero-winner">'+gcWinner+' leidt het algemeen klassement '+rainbowSvg(24,29)+'</span>'+
       '<span class="hero-score"><span class="lead">'+(gcWinner==='Niels'?finalP.cumNiels:finalP.cumMutti)+'</span> — '+(gcWinner==='Niels'?finalP.cumMutti:finalP.cumNiels)+' ('+(gcWinner==='Niels'?'Mutti':'Niels')+')</span></div>';
     html += '<div class="hero-note">Optelsom van alle 6 jaargangen (2021 t/m 2026) — elke jaargang telt als één etappe. '+gcWinner+' leidt met '+gcMargin+' punten verschil.</div>';
-    html += '<div class="legend-riders"><span><span class="legend-dot" style="background:var(--niels)"></span>Niels voor</span><span><span class="legend-dot" style="background:var(--mutti)"></span>Mutti voor</span></div>';
-    html += chartSvg;
+    html += '<div class="legend-riders"><span><span class="legend-dot" style="background:var(--niels)"></span>Niels</span><span><span class="legend-dot" style="background:var(--mutti)"></span>Mutti</span></div>';
     html += '</div>';
+
+    html += '<div class="section">'+renderTruiStrip(gcWinner, subSums)+'</div>';
+
+    html += '<div class="section"><p class="eyebrow">Zes etappes, één klassement</p>'+renderRoad(points, finalP, gcWinner, gcMargin)+'</div>';
 
     html += '<div class="section"><p class="eyebrow">Etappe-uitslagen</p><div class="table-scroll"><table class="etappe-table">'+etappeRows+'</table></div></div>';
 
-    html += '<div class="section"><p class="eyebrow">Subcategorieën — algemeen</p>';
+    html += '<div class="section"><p class="eyebrow">Subcategorieën — algemeen (wie boven eindigt, krijgt de trui)</p>';
     subKeys.forEach(function(sk){ html += renderMetaCard(sk.key, sk.label, subSums[sk.key]); });
     html += '</div>';
 
