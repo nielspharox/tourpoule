@@ -173,8 +173,8 @@
   .gc-hero .hero-winner{display:inline-flex;align-items:center;gap:8px;}
   .gc-hero .hero-winner .jshirt{filter:none;}
   .gc-chart-wrap{overflow-x:auto;margin-top:14px;}
-  .gc-chart-wrap svg{display:block;min-width:600px;}
-  .chart-year{font-family:var(--font-mono);font-size:11px;fill:#9aa3b5;text-anchor:middle;}
+  .gc-chart-wrap svg{display:block;max-width:100%;height:auto;}
+  .chart-year{font-family:var(--font-mono);font-size:9px;fill:#9aa3b5;text-anchor:middle;}
   .legend-riders{display:flex;gap:16px;margin-top:10px;font-family:var(--font-mono);font-size:12px;color:#c7cede;}
   .legend-riders span{display:inline-flex;align-items:center;gap:6px;}
   .legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
@@ -196,15 +196,12 @@
   .climb-wrap svg{background:var(--asphalt);}
   .climb-mountain{fill:var(--asphalt-2);}
   .climb-grid{stroke:#3a3f4d;stroke-width:1;stroke-dasharray:2 3;}
-  .climb-grid-label{font-family:var(--font-mono);font-size:10px;fill:#7c8aa0;}
+  .climb-grid-label{font-family:var(--font-mono);font-size:9px;fill:#7c8aa0;}
   .climb-line{fill:none;stroke-linecap:round;}
   .climb-area{opacity:0.12;}
-  .climb-name{font-family:var(--font-display);font-weight:800;font-size:13px;letter-spacing:0.02em;}
-  .climb-name-lg{font-size:17px;}
+  .climb-name{font-family:var(--font-display);font-weight:800;font-size:12px;letter-spacing:0.02em;}
+  .climb-name-lg{font-size:14px;}
   .climb-wrap .chart-year{fill:#9aa3b5;}
-  .climb-wrap-lg svg{min-width:680px;}
-  .climb-wrap-lg .chart-year{font-size:13px;}
-  .climb-wrap-lg .climb-grid-label{font-size:12px;}
 
   .etappe-table{width:100%;border-collapse:collapse;margin-top:4px;}
   .etappe-table td{padding:8px 10px;border-bottom:1px solid var(--chalk-dim);font-size:14.5px;}
@@ -829,7 +826,7 @@
 
   function trendChartSvg(series){
     var c = buildClimb(series, {W:340, H:120, marginX:28, marginTop:12, marginBottom:22});
-    return '<div class="gc-chart-wrap climb-wrap"><svg viewBox="0 0 '+c.W+' '+c.H+'">'+c.svgInner+'</svg></div>';
+    return '<div class="gc-chart-wrap climb-wrap"><svg width="'+c.W+'" height="'+c.H+'" viewBox="0 0 '+c.W+' '+c.H+'">'+c.svgInner+'</svg></div>';
   }
 
   function renderMetaCard(key, label, sums){
@@ -872,7 +869,7 @@
       '<use href="#bike" x="'+(otherEnd.endX-15)+'" y="'+(otherEnd.endY-34)+'" width="30" height="30" style="color:'+otherColor+'"/>'+
       '<text x="'+otherEnd.endX+'" y="'+(otherEnd.endY-40)+'" text-anchor="middle" class="climb-name climb-name-lg" fill="'+otherColor+'">'+otherName+'</text>';
 
-    return '<div class="gc-chart-wrap climb-wrap climb-wrap-lg"><svg viewBox="0 0 '+c.W+' '+c.H+'">'+c.svgInner+labels+'</svg></div>';
+    return '<div class="gc-chart-wrap climb-wrap climb-wrap-lg"><svg width="'+c.W+'" height="'+c.H+'" viewBox="0 0 '+c.W+' '+c.H+'">'+c.svgInner+labels+'</svg></div>';
   }
 
   function renderTruiStrip(gcWinner, subSums){
