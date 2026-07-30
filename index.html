@@ -17,8 +17,8 @@
     --green:#2f9e59;
     --red:#c93f3f;
     --orange:#f2790a;
-    --niels:#3b6fb8;
-    --mutti:#b1502e;
+    --niels:#2f5f8a;
+    --mutti:#b5501f;
     --steel:#7c8aa0;
     --font-display: 'Arial Narrow', 'Helvetica Neue Condensed Bold', 'Helvetica Neue', Arial, sans-serif;
     --font-body: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
@@ -182,24 +182,28 @@
   .legend-riders span{display:inline-flex;align-items:center;gap:6px;}
   .legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
 
-  /* trui-strip: jersey chips, port of the original brainstorm mockup */
-  .trui-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  /* trui-strip: fine jersey chips, port of the original brainstorm mockup */
+  .trui-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;}
   .trui-chip{
-    background:var(--asphalt);color:var(--chalk);padding:10px 11px;
-    clip-path:polygon(0 6px,6px 6px,6px 0,calc(100% - 6px) 0,calc(100% - 6px) 6px,100% 6px,100% calc(100% - 6px),calc(100% - 6px) calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,6px calc(100% - 6px),0 calc(100% - 6px));
-    border-top:4px solid var(--tc,var(--gold));
+    background:var(--asphalt);color:var(--chalk);padding:6px 7px;
+    clip-path:polygon(0 4px,4px 4px,4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px));
+    border-top:3px solid var(--tc,var(--gold));
   }
-  .trui-chip.tc-rainbow{border-top:4px solid transparent;border-image:linear-gradient(90deg,#1f5fbf,#d3323a,#1c2130,#f0c419,#2f9e59) 1;}
-  .trui-chip .trui-label{font-family:var(--font-display);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--tc,var(--gold));font-weight:700;margin-bottom:5px;}
-  .trui-chip .trui-who{font-size:14.5px;font-weight:700;display:flex;align-items:center;gap:5px;}
-  .trui-chip .trui-stat{font-family:var(--font-mono);font-size:11px;color:#b7bdcc;margin-top:2px;}
-  .trui-dot{width:9px;height:9px;border-radius:50%;flex:none;}
+  .trui-chip.tc-rainbow{border-top:3px solid transparent;border-image:linear-gradient(90deg,#1f5fbf,#d3323a,#1c2130,#f0c419,#2f9e59) 1;}
+  .trui-chip .trui-label{font-family:var(--font-display);font-size:7.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--tc,var(--gold));font-weight:700;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .trui-chip .trui-who{font-size:12px;font-weight:700;display:flex;align-items:center;gap:4px;}
+  .trui-chip .trui-stat{font-family:var(--font-mono);font-size:9.5px;color:#b7bdcc;margin-top:1px;}
+  .trui-dot{width:7px;height:7px;border-radius:50%;flex:none;}
 
-  /* bicycle icons on the road */
-  .bike-icon{flex:none;}
-  .road-label{font-family:var(--font-display);font-weight:800;font-size:12px;letter-spacing:0.02em;text-anchor:middle;}
-  .road-gap{font-family:var(--font-mono);font-size:11px;text-anchor:middle;}
-  .road-flag-text{font-family:var(--font-mono);font-size:10px;fill:#9aa3b5;}
+  /* climb profile */
+  .climb-wrap svg{background:var(--asphalt);}
+  .climb-mountain{fill:var(--asphalt-2);}
+  .climb-grid{stroke:#3a3f4d;stroke-width:1;stroke-dasharray:2 3;}
+  .climb-grid-label{font-family:var(--font-mono);font-size:10px;fill:#7c8aa0;}
+  .climb-line{fill:none;stroke-width:2.5;stroke-dasharray:1 5;stroke-linecap:round;}
+  .climb-area{opacity:0.16;}
+  .climb-name{font-family:var(--font-display);font-weight:800;font-size:13px;letter-spacing:0.02em;}
+  .climb-wrap .chart-year{fill:#9aa3b5;}
 
   .etappe-table{width:100%;border-collapse:collapse;margin-top:4px;}
   .etappe-table td{padding:8px 10px;border-bottom:1px solid var(--chalk-dim);font-size:14.5px;}
@@ -239,10 +243,11 @@
           <path id="tshirt" d="M8,2 L4,2 L1,7 L4,10 L4,26 L20,26 L20,10 L23,7 L20,2 L16,2 C16,4.2 14.2,5.6 12,5.6 C9.8,5.6 8,4.2 8,2 Z"/>
           <clipPath id="tshirtClip"><use href="#tshirt"/></clipPath>
           <symbol id="bike" viewBox="0 0 24 24">
-            <circle cx="5.5" cy="17.5" r="4.3" fill="none" stroke="currentColor" stroke-width="2"/>
-            <circle cx="18.5" cy="17.5" r="4.3" fill="none" stroke="currentColor" stroke-width="2"/>
-            <path d="M5.5,17.5 L10.3,8 L15,17.5 M10.3,8 L13.6,8 M15,17.5 L18.5,17.5 M10.3,8 L7,17.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="13.6" cy="6" r="1.3" fill="currentColor"/>
+            <circle cx="5.5" cy="18" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="18.5" cy="18" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M5.5,18 L12,7.5 L18.5,18 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M12,7.5 L16.2,7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="16.2" cy="5" r="1.4" fill="currentColor"/>
           </symbol>
         </defs>
       </svg>
@@ -762,28 +767,78 @@
 
   var CHRONOLOGICAL = [2021, 2022, 2023, 2024, 2025, 2026];
 
-  function trendChartSvg(series){
-    var W=340, H=110, marginX=26, topPad=12, botPad=20;
+  function climbLineSet(series, key, color){
+    return {
+      color: color,
+      dots: series.map(function(p,i){ return {x:i, v:p[key]}; })
+    };
+  }
+
+  function buildClimb(series, opts){
+    opts = opts || {};
+    var W = opts.W || 340, H = opts.H || 150;
+    var marginX = opts.marginX || 26, marginTop = opts.marginTop || 14, marginBottom = opts.marginBottom || 24;
+    var ceiling = opts.ceiling; // if set, fixed scale (e.g. 1000); otherwise auto from data
     var n = series.length;
     var stepX = n > 1 ? (W-2*marginX)/(n-1) : 0;
-    var maxV = Math.max.apply(null, series.map(function(p){ return Math.max(p.cumNiels, p.cumMutti); }));
+    var maxV = ceiling || Math.max.apply(null, series.map(function(p){ return Math.max(p.cumNiels, p.cumMutti); }))*1.1;
     function xFor(i){ return marginX + i*stepX; }
-    function yFor(v){ return topPad + (1 - v/(maxV*1.08)) * (H-topPad-botPad); }
+    function yFor(v){ return marginTop + (1 - v/maxV) * (H-marginTop-marginBottom); }
 
-    var nielsPath = series.map(function(p,i){ return (i===0?'M':'L')+xFor(i).toFixed(1)+','+yFor(p.cumNiels).toFixed(1); }).join(' ');
-    var muttiPath = series.map(function(p,i){ return (i===0?'M':'L')+xFor(i).toFixed(1)+','+yFor(p.cumMutti).toFixed(1); }).join(' ');
-    var dots = series.map(function(p,i){
-      var x = xFor(i);
-      return '<circle cx="'+x.toFixed(1)+'" cy="'+yFor(p.cumNiels).toFixed(1)+'" r="3" fill="var(--niels)"/>'+
-        '<circle cx="'+x.toFixed(1)+'" cy="'+yFor(p.cumMutti).toFixed(1)+'" r="3" fill="var(--mutti)"/>'+
-        '<text x="'+x.toFixed(1)+'" y="'+(H-6)+'" class="chart-year" style="font-size:9px">'+p.year+'</text>';
+    var gridVals = opts.gridVals || [Math.round(maxV/2)];
+    var gridSvg = gridVals.map(function(v){
+      var y = yFor(v);
+      return '<line x1="'+marginX+'" y1="'+y.toFixed(1)+'" x2="'+(W-marginX)+'" y2="'+y.toFixed(1)+'" class="climb-grid"/>'+
+        '<text x="'+(marginX-6)+'" y="'+(y+3).toFixed(1)+'" text-anchor="end" class="climb-grid-label">'+v+'</text>';
+    }).join('');
+    var topGridY = yFor(maxV*0.98);
+    gridSvg += '<line x1="'+marginX+'" y1="'+topGridY.toFixed(1)+'" x2="'+(W-marginX)+'" y2="'+topGridY.toFixed(1)+'" class="climb-grid"/>'+
+      '<text x="'+(marginX-6)+'" y="'+(topGridY+3).toFixed(1)+'" text-anchor="end" class="climb-grid-label">'+Math.round(maxV)+'</text>';
+
+    var baseY = H - marginBottom;
+    var mountainPts = [marginX+','+baseY];
+    for(var i=0;i<n;i++){
+      var mx = xFor(i);
+      var bump = (i%2===0) ? 18 : 34;
+      mountainPts.push((mx).toFixed(1)+','+(baseY - (i/(n-1||1))*(H-marginTop-marginBottom-10) - bump));
+    }
+    mountainPts.push((W-marginX)+','+(marginTop+4));
+    mountainPts.push((W-marginX)+','+baseY);
+
+    function lineFor(key, color){
+      var pathD = series.map(function(p,i){ return (i===0?'M':'L')+xFor(i).toFixed(1)+','+yFor(p[key]).toFixed(1); }).join(' ');
+      var areaD = pathD+' L'+xFor(n-1).toFixed(1)+','+baseY+' L'+xFor(0).toFixed(1)+','+baseY+' Z';
+      var dots = series.map(function(p,i){
+        return '<circle cx="'+xFor(i).toFixed(1)+'" cy="'+yFor(p[key]).toFixed(1)+'" r="3.5" fill="'+color+'" stroke="#171a21" stroke-width="1.3"/>';
+      }).join('');
+      return {pathD:pathD, areaD:areaD, dots:dots, endX:xFor(n-1), endY:yFor(series[n-1][key])};
+    }
+
+    var mutti = lineFor('cumMutti', 'var(--mutti)');
+    var niels = lineFor('cumNiels', 'var(--niels)');
+
+    var yearLabels = series.map(function(p,i){
+      return '<text x="'+xFor(i).toFixed(1)+'" y="'+(H-6)+'" text-anchor="middle" class="chart-year">'+p.year+'</text>';
     }).join('');
 
-    return '<div class="gc-chart-wrap"><svg viewBox="0 0 '+W+' '+H+'">'+
-      '<path d="'+nielsPath+'" fill="none" stroke="var(--niels)" stroke-width="2"/>'+
-      '<path d="'+muttiPath+'" fill="none" stroke="var(--mutti)" stroke-width="2"/>'+
-      dots+
-      '</svg></div>';
+    return {
+      W:W, H:H,
+      svgInner:
+        '<rect x="0" y="0" width="'+W+'" height="'+H+'" class="climb-bg" fill="var(--asphalt)"/>'+
+        '<polygon points="'+mountainPts.join(' ')+'" class="climb-mountain"/>'+
+        gridSvg+
+        '<path d="'+mutti.areaD+'" class="climb-area" fill="var(--mutti)"/>'+
+        '<path d="'+niels.areaD+'" class="climb-area" fill="var(--niels)"/>'+
+        '<path d="'+mutti.pathD+'" class="climb-line" stroke="var(--mutti)"/>'+
+        '<path d="'+niels.pathD+'" class="climb-line" stroke="var(--niels)"/>'+
+        mutti.dots + niels.dots + yearLabels,
+      mutti: mutti, niels: niels
+    };
+  }
+
+  function trendChartSvg(series){
+    var c = buildClimb(series, {W:340, H:120, marginX:28, marginTop:12, marginBottom:22});
+    return '<div class="gc-chart-wrap climb-wrap"><svg viewBox="0 0 '+c.W+' '+c.H+'">'+c.svgInner+'</svg></div>';
   }
 
   function renderMetaCard(key, label, sums){
@@ -808,46 +863,22 @@
     return html;
   }
 
-  function renderRoad(points, finalP, gcWinner, gcMargin){
-    var W=780, H=210;
-    var roadY=150, roadH=32;
-    var marginX=40;
-    var stepX = (W-2*marginX)/(CHRONOLOGICAL.length-1);
-    function xFor(i){ return marginX + i*stepX; }
+  function renderClimbOverview(points, gcWinner){
+    var c = buildClimb(points, {W:780, H:270, marginX:50, marginTop:22, marginBottom:34, ceiling:1000});
+    var leadEnd = gcWinner==='Niels' ? c.niels : c.mutti;
+    var otherEnd = gcWinner==='Niels' ? c.mutti : c.niels;
+    var leadColor = gcWinner==='Niels' ? 'var(--niels)' : 'var(--mutti)';
+    var otherColor = gcWinner==='Niels' ? 'var(--mutti)' : 'var(--niels)';
+    var otherName = gcWinner==='Niels' ? 'Mutti' : 'Niels';
 
-    var ticks = points.map(function(p,i){
-      var x = xFor(i);
-      var color = p.winner==='Niels' ? 'var(--niels)' : 'var(--mutti)';
-      return '<circle cx="'+x+'" cy="'+(roadY-14)+'" r="4" fill="'+color+'"/>'+
-        '<text x="'+x+'" y="'+(H-8)+'" class="chart-year">'+p.year+'</text>';
-    }).join('');
+    var labels = ''+
+      '<use href="#bike" x="'+(leadEnd.endX-13)+'" y="'+(leadEnd.endY-30)+'" width="24" height="24" style="color:'+leadColor+'"/>'+
+      '<text x="'+(leadEnd.endX-9)+'" y="'+(leadEnd.endY-34)+'" text-anchor="end" class="climb-name" fill="'+leadColor+'">'+gcWinner+'</text>'+
+      '<svg x="'+(leadEnd.endX-4)+'" y="'+(leadEnd.endY-49)+'" width="15" height="18" viewBox="0 0 24 28"><use href="#tshirt" fill="#fdfdf9" stroke="#1c2130" stroke-width="1.2"/><g clip-path="url(#tshirtClip)"><rect x="0" y="9" width="24" height="2" fill="#1f5fbf"/><rect x="0" y="11" width="24" height="2" fill="#d3323a"/><rect x="0" y="13" width="24" height="2" fill="#1c2130"/><rect x="0" y="15" width="24" height="2" fill="#f0c419"/><rect x="0" y="17" width="24" height="2" fill="#2f9e59"/></g></svg>'+
+      '<use href="#bike" x="'+(otherEnd.endX-13)+'" y="'+(otherEnd.endY-30)+'" width="24" height="24" style="color:'+otherColor+'"/>'+
+      '<text x="'+otherEnd.endX+'" y="'+(otherEnd.endY-34)+'" text-anchor="middle" class="climb-name" fill="'+otherColor+'">'+otherName+'</text>';
 
-    var maxAbs = Math.max.apply(null, points.map(function(p){ return Math.abs(p.gap); }));
-    var leaderX = W - marginX - 50;
-    var backPixels = Math.min((Math.abs(finalP.gap)/maxAbs) * (W-2*marginX) * 0.55, W-2*marginX-60);
-    var trailX = leaderX - backPixels;
-    var leaderColor = gcWinner==='Niels' ? 'var(--niels)' : 'var(--mutti)';
-    var trailColor = gcWinner==='Niels' ? 'var(--mutti)' : 'var(--niels)';
-    var trailName = gcWinner==='Niels' ? 'Mutti' : 'Niels';
-
-    var riders = ''+
-      '<text x="'+trailX+'" y="'+(roadY-42)+'" text-anchor="middle" class="road-label" fill="'+trailColor+'">'+trailName+'</text>'+
-      '<use href="#bike" x="'+(trailX-15)+'" y="'+(roadY-36)+'" width="30" height="30" style="color:'+trailColor+'"/>'+
-      '<text x="'+leaderX+'" y="'+(roadY-42)+'" text-anchor="middle" class="road-label" fill="'+leaderColor+'">'+gcWinner+'</text>'+
-      '<use href="#bike" x="'+(leaderX-15)+'" y="'+(roadY-36)+'" width="30" height="30" style="color:'+leaderColor+'"/>'+
-      '<text x="'+((leaderX+trailX)/2)+'" y="'+(roadY-2)+'" text-anchor="middle" class="road-gap" fill="'+leaderColor+'">+'+gcMargin+'</text>';
-
-    return '<div class="gc-chart-wrap"><svg viewBox="0 0 '+W+' '+H+'">'+
-      '<polygon points="0,'+(roadY-25)+' 90,'+(roadY-70)+' 170,'+(roadY-25)+' 260,'+(roadY-85)+' 360,'+(roadY-30)+' 460,'+(roadY-65)+' 560,'+(roadY-30)+' 650,'+(roadY-70)+' '+W+','+(roadY-35)+' '+W+','+roadY+' 0,'+roadY+'" fill="var(--asphalt-2)"/>'+
-      '<rect x="0" y="'+roadY+'" width="'+W+'" height="'+roadH+'" fill="#171a21"/>'+
-      '<line x1="14" y1="'+(roadY+roadH/2)+'" x2="'+(W-14)+'" y2="'+(roadY+roadH/2)+'" stroke="var(--gold)" stroke-width="2" stroke-dasharray="10 8" opacity="0.55"/>'+
-      '<rect x="8" y="'+(roadY-18)+'" width="3" height="'+(roadH+18)+'" fill="#f3ede0"/><rect x="11" y="'+(roadY-18)+'" width="10" height="8" fill="#1c2130"/>'+
-      '<rect x="'+(W-14)+'" y="'+(roadY-24)+'" width="3" height="'+(roadH+24)+'" fill="#f3ede0"/><rect x="'+(W-11)+'" y="'+(roadY-24)+'" width="12" height="10" fill="#f3ede0"/><rect x="'+(W-11)+'" y="'+(roadY-24)+'" width="4" height="4" fill="#1c2130"/><rect x="'+(W-3)+'" y="'+(roadY-20)+'" width="4" height="4" fill="#1c2130"/>'+
-      ticks+
-      riders+
-      '<text x="12" y="'+(roadY+roadH+16)+'" class="road-flag-text">GRAND DÉPART 2021</text>'+
-      '<text x="'+(W-12)+'" y="'+(roadY+roadH+16)+'" text-anchor="end" class="road-flag-text">EINDSTAND NA 2026</text>'+
-      '</svg></div>';
+    return '<div class="gc-chart-wrap climb-wrap"><svg viewBox="0 0 '+c.W+' '+c.H+'">'+c.svgInner+labels+'</svg></div>';
   }
 
   function renderTruiStrip(gcWinner, subSums){
@@ -862,15 +893,16 @@
       var s = subSums[c.key];
       var winner = s.Niels===s.Mutti ? 'Gelijkspel' : (s.Niels>s.Mutti?'Niels':'Mutti');
       var dotColor = winner==='Niels' ? 'var(--niels)' : (winner==='Mutti' ? 'var(--mutti)' : '#999');
+      var icon = winner==='Gelijkspel' ? '' : jerseyIcon(c.key, 13, 16);
       html += '<div class="trui-chip" style="--tc:'+c.jc+'">'+
         '<div class="trui-label">'+c.label+'</div>'+
-        '<div class="trui-who">'+(winner==='Gelijkspel'?'':'<span class="trui-dot" style="background:'+dotColor+'"></span>')+winner+'</div>'+
+        '<div class="trui-who">'+(winner==='Gelijkspel'?'':'<span class="trui-dot" style="background:'+dotColor+'"></span>')+winner+icon+'</div>'+
         '<div class="trui-stat">'+s.Niels+' — '+s.Mutti+' pt</div>'+
         '</div>';
     });
     html += '<div class="trui-chip tc-rainbow">'+
       '<div class="trui-label">Algemeen — regenboog</div>'+
-      '<div class="trui-who"><span class="trui-dot" style="background:'+(gcWinner==='Niels'?'var(--niels)':'var(--mutti)')+'"></span>'+gcWinner+'</div>'+
+      '<div class="trui-who"><span class="trui-dot" style="background:'+(gcWinner==='Niels'?'var(--niels)':'var(--mutti)')+'"></span>'+gcWinner+jerseyIcon('rainbow',13,16)+'</div>'+
       '<div class="trui-stat">6 etappes</div>'+
       '</div>';
     html += '</div>';
@@ -892,6 +924,7 @@
         cumNiels: cum.Niels, cumMutti: cum.Mutti,
         gap: cum.Niels - cum.Mutti,
         winner: sorted[0].name,
+        yearMargin: sorted[0].pts - sorted[1].pts,
         scoreText: sorted[0].name+' '+sorted[0].pts+' — '+sorted[1].pts+' ('+sorted[1].name+')'
       });
     });
@@ -901,7 +934,7 @@
 
     var etappeRows = points.map(function(p){
       var dotColor = p.winner==='Niels' ? 'var(--niels)' : 'var(--mutti)';
-      return '<tr><td class="et-year">'+p.year+'</td><td><span class="legend-dot" style="background:'+dotColor+';margin-right:6px"></span>'+p.scoreText+'</td><td class="et-score">gat: '+(p.gap>=0?'Niels +':'Mutti +')+Math.abs(p.gap)+'</td></tr>';
+      return '<tr><td class="et-year">'+p.year+'</td><td><span class="legend-dot" style="background:'+dotColor+';margin-right:6px"></span>'+p.scoreText+'</td><td class="et-score">verschil: +'+p.yearMargin+'</td></tr>';
     }).join('');
 
     var subKeys = [
@@ -933,7 +966,7 @@
 
     html += '<div class="section">'+renderTruiStrip(gcWinner, subSums)+'</div>';
 
-    html += '<div class="section"><p class="eyebrow">Zes etappes, één klassement</p>'+renderRoad(points, finalP, gcWinner, gcMargin)+'</div>';
+    html += '<div class="section"><p class="eyebrow">Zes etappes, één beklimming</p>'+renderClimbOverview(points, gcWinner)+'</div>';
 
     html += '<div class="section"><p class="eyebrow">Etappe-uitslagen</p><div class="table-scroll"><table class="etappe-table">'+etappeRows+'</table></div></div>';
 
