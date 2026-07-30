@@ -16,6 +16,7 @@
     --gold-dim:#b8860f;
     --green:#2f9e59;
     --red:#c93f3f;
+    --orange:#f2790a;
     --steel:#7c8aa0;
     --font-display: 'Arial Narrow', 'Helvetica Neue Condensed Bold', 'Helvetica Neue', Arial, sans-serif;
     --font-body: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
@@ -99,6 +100,7 @@
   .jersey-banner.jb-groen{background:var(--green);color:#fff;}
   .jersey-banner.jb-wit{background:#fdfdf9;color:var(--ink);border-bottom:3px solid #d8d8d0;}
   .jersey-banner.jb-strijd{background:var(--red);color:#fff;}
+  .jersey-banner.jb-nlbonus{background:var(--orange);color:var(--ink);}
   .jersey-banner.jb-bollen{background:#fff;color:var(--red);border-bottom:3px solid var(--red);}
   .jersey-banner.jb-bollen::before{
     content:'';position:absolute;inset:0;
@@ -215,7 +217,7 @@
       <tbody><tr><th>Punten</th><td>25</td><td>18</td><td>15</td><td>12</td><td>10</td><td>8</td><td>6</td><td>4</td><td>2</td><td>1</td><td>0</td></tr></tbody>
     </table>
     <p class="legend-body-text">
-      Elke deelnemer voorspelt vooraf de top 5 van elk klassement (Groen en Bollen hadden in 2023 maar 3 voorspellingen per persoon). Punten volgen uit het verschil tussen de voorspelde plek en de werkelijke eindpositie — exact goed levert 25 op, en elke plek ernaast kost punten volgens de tabel. Een gestreepte <b style="color:#fff">x</b> betekent dat de renner niet in het eindklassement stond (uitgevallen of buiten de uitslag) — dat levert net als 10+ plekken ernaast 0 punten op, maar is een ander soort mis dan een renner die wél reed maar ver weg eindigde. De <b style="color:#fff">Strijdlustigste renner</b> (nieuw in 2026) is één losse gok: goed = 25 punten, fout = 0.
+      Elke deelnemer voorspelt vooraf de top 5 van elk klassement — Groen en Bollen hadden van 2021 t/m 2024 maar 3 voorspellingen per persoon, en Wit had er in 2021 ook maar 3. Punten volgen uit het verschil tussen de voorspelde plek en de werkelijke eindpositie — exact goed levert 25 op, en elke plek ernaast kost punten volgens de tabel. Een gestreepte <b style="color:#fff">x</b> betekent dat de renner niet in het eindklassement stond (uitgevallen of buiten de uitslag) — dat levert net als 10+ plekken ernaast 0 punten op, maar is een ander soort mis dan een renner die wél reed maar ver weg eindigde. Twee bonusgokken zijn los van de klassementen blijven staan: de <b style="color:#fff">Strijdlustigste renner</b> (2026) is één gok — goed = 25 punten, fout = 0 — en de <b style="color:#fff">Nederlandse ritzege</b> (2021) was twee gokken, elk apart goed voor 25 punten bij een treffer (dus 0, 25 of 50 in totaal).
     </p>
   </div>
 
@@ -296,7 +298,7 @@
           ]
         },
         {
-          key:'wit', jersey:'wit', label:'Wit — jongerenklassement (nieuw in 2026)',
+          key:'wit', jersey:'wit', label:'Wit — jongerenklassement (na 2021 terug in 2026)',
           actualTop:['Del Toro','Seixas','L. Martinez','Ayuso','Piganzoli','Simmons','Riccitello'],
           actualNote:'(14e: Baudin)',
           winner:'Mutti',
@@ -422,6 +424,174 @@
           ]
         }
       ]
+    },
+
+    2024: {
+      year: 2024,
+      totals: [ {name:'Niels', pts:134}, {name:'Mutti', pts:120} ],
+      note: "Niels wint dankzij Geel en Bollen — Mutti pakt alleen Groen, maar wel met een duidelijke marge (50 om 30). Het sheet noteerde Niels' Groen-subtotaal ooit als 36; met De Lie's bevestigde 6e plek komt de F1-tabel op 30.",
+      classifications: [
+        {
+          key:'geel', jersey:'geel', label:'Geel — algemeen klassement (5 picks)',
+          actualTop:['Pogačar','Vingegaard','Evenepoel','Almeida','Landa','A. Yates','Rodríguez','Jorgenson','Gee','Buitrago'],
+          winner:'Niels',
+          cols:[
+            {name:'Mutti', subtotal:70, rows:[
+              {rider:'Pogacar', pos:1, pts:25}, {rider:'Roglic', pos:null, pts:0}, {rider:'Vingegaard', pos:2, pts:18}, {rider:'Rodríguez', pos:7, pts:12}, {rider:'Evenepoel', pos:3, pts:15}
+            ]},
+            {name:'Niels', subtotal:86, rows:[
+              {rider:'Pogacar', pos:1, pts:25}, {rider:'Vingegaard', pos:2, pts:25}, {rider:'Roglic', pos:null, pts:0}, {rider:'Evenepoel', pos:3, pts:18}, {rider:'A. Yates', pos:6, pts:18}
+            ]}
+          ]
+        },
+        {
+          key:'groen', jersey:'groen', label:'Groen — puntenklassement (3 picks)',
+          actualTop:['Girmay','Philipsen','Coquard','Pogačar','Turgis','De Lie'],
+          winner:'Mutti',
+          cols:[
+            {name:'Mutti', subtotal:50, rows:[
+              {rider:'Pedersen', pos:null, pts:0}, {rider:'Philipsen', pos:2, pts:25}, {rider:'Coquard', pos:3, pts:25}
+            ]},
+            {name:'Niels', subtotal:30, rows:[
+              {rider:'Philipsen', pos:2, pts:18}, {rider:'Pedersen', pos:null, pts:0}, {rider:'De Lie', pos:6, pts:12}
+            ]}
+          ]
+        },
+        {
+          key:'bollen', jersey:'bollen', label:'Bollen — bergklassement (3 picks)',
+          actualTop:['Carapaz','Pogačar','Vingegaard'],
+          winner:'Niels',
+          cols:[
+            {name:'Mutti', subtotal:0, rows:[
+              {rider:'Ciccone', pos:null, pts:0}, {rider:'L. Martinez', pos:null, pts:0}, {rider:'Powless', pos:null, pts:0}
+            ]},
+            {name:'Niels', subtotal:18, rows:[
+              {rider:'Ciccone', pos:null, pts:0}, {rider:'Carapaz', pos:1, pts:18}, {rider:'Derek Gee', pos:null, pts:0}
+            ]}
+          ]
+        }
+      ]
+    },
+
+    2022: {
+      year: 2022,
+      totals: [ {name:'Niels', pts:124}, {name:'Mutti', pts:111} ],
+      note: "Niels wint 2 van de 3 klassementen (Geel en Groen) — Mutti's Bollen-zege (26 om 8) is niet genoeg om het gat te dichten.",
+      classifications: [
+        {
+          key:'geel', jersey:'geel', label:'Geel — algemeen klassement (5 picks)',
+          actualTop:['Vingegaard','Pogačar','Thomas','Gaudu','Vlasov','Quintana','Bardet','Meintjes','Lutsenko','G. Yates'],
+          winner:'Niels',
+          cols:[
+            {name:'Mutti', subtotal:54, rows:[
+              {rider:'Pogacar', pos:2, pts:18}, {rider:'Vingegaard', pos:1, pts:18}, {rider:'Roglic', pos:null, pts:0}, {rider:'Vlasov', pos:5, pts:18}, {rider:"O'Connor", pos:null, pts:0}
+            ]},
+            {name:'Niels', subtotal:61, rows:[
+              {rider:'Pogacar', pos:2, pts:18}, {rider:'Vingegaard', pos:1, pts:18}, {rider:'Roglic', pos:null, pts:0}, {rider:"O'Connor", pos:null, pts:0}, {rider:'Vlasov', pos:5, pts:25}
+            ]}
+          ]
+        },
+        {
+          key:'groen', jersey:'groen', label:'Groen — puntenklassement (3 picks)',
+          actualTop:['Van Aert','Philipsen','Pogačar','Laporte','Jakobsen','Pedersen','Vingegaard','Matthews','Sagan','Groenewegen'],
+          winner:'Niels',
+          cols:[
+            {name:'Mutti', subtotal:31, rows:[
+              {rider:'Van Aert', pos:1, pts:25}, {rider:'Ewan', pos:null, pts:0}, {rider:'Sagan', pos:9, pts:6}
+            ]},
+            {name:'Niels', subtotal:55, rows:[
+              {rider:'Van Aert', pos:1, pts:25}, {rider:'Jakobsen', pos:5, pts:12}, {rider:'Philipsen', pos:2, pts:18}
+            ]}
+          ]
+        },
+        {
+          key:'bollen', jersey:'bollen', label:'Bollen — bergklassement (3 picks)',
+          actualTop:['Vingegaard','Geschke','Ciccone','Pogačar','Van Aert','Pinot'],
+          winner:'Mutti',
+          cols:[
+            {name:'Mutti', subtotal:26, rows:[
+              {rider:'Pinot', pos:6, pts:8}, {rider:'Woods', pos:null, pts:0}, {rider:'Pogacar', pos:4, pts:18}
+            ]},
+            {name:'Niels', subtotal:8, rows:[
+              {rider:'Pinot', pos:6, pts:8}, {rider:'Bardet', pos:null, pts:0}, {rider:'Guerreiro', pos:null, pts:0}
+            ]}
+          ]
+        }
+      ]
+    },
+
+    2021: {
+      year: 2021,
+      totals: [ {name:'Mutti', pts:170}, {name:'Niels', pts:162} ],
+      note: "Mutti wint dankzij een dominante Geel-gok (50 om 33) — Niels wint zelf Groen en Wit, en Bollen eindigt precies gelijk. Geen puntentabel bewaard uit dit jaar; alles hieronder is berekend met de F1-formule op de bevestigde uitslag.",
+      classifications: [
+        {
+          key:'geel', jersey:'geel', label:'Geel — algemeen klassement (3 picks)',
+          actualTop:['Pogačar','Vingegaard','Carapaz',"O'Connor",'Kelderman','Mas','Lutsenko','G. Martin','Bilbao','Urán'],
+          winner:'Mutti',
+          cols:[
+            {name:'Mutti', subtotal:50, rows:[
+              {rider:'Pogacar', pos:1, pts:25}, {rider:'Roglic', pos:null, pts:0}, {rider:'Carapaz', pos:3, pts:25}
+            ]},
+            {name:'Niels', subtotal:33, rows:[
+              {rider:'Roglic', pos:null, pts:0}, {rider:'Pogacar', pos:1, pts:18}, {rider:'Kelderman', pos:5, pts:15}
+            ]}
+          ]
+        },
+        {
+          key:'groen', jersey:'groen', label:'Groen — puntenklassement (3 picks)',
+          actualTop:['Cavendish','Matthews','Colbrelli','Philipsen','Van Aert'],
+          winner:'Niels',
+          cols:[
+            {name:'Mutti', subtotal:15, rows:[
+              {rider:'Colbrelli', pos:3, pts:15}, {rider:'Sagan', pos:null, pts:0}, {rider:'Coquard', pos:null, pts:0}
+            ]},
+            {name:'Niels', subtotal:18, rows:[
+              {rider:'Sagan', pos:null, pts:0}, {rider:'Colbrelli', pos:3, pts:18}, {rider:'Ewan', pos:null, pts:0}
+            ]}
+          ]
+        },
+        {
+          key:'bollen', jersey:'bollen', label:'Bollen — bergklassement (3 picks)', tie:true,
+          actualTop:['Pogačar','Poels','Vingegaard','Van Aert','Quintana'],
+          winner:null,
+          tieNote:'Andere namen, zelfde score: Mutti koos Carapaz en Urán naast Pogačar, Niels koos Roglič en Barguil — allebei net zo mis, allebei 25 punten uit Pogačar.',
+          cols:[
+            {name:'Mutti', subtotal:25, rows:[
+              {rider:'Pogacar', pos:1, pts:25}, {rider:'Carapaz', pos:null, pts:0}, {rider:'Urán', pos:null, pts:0}
+            ]},
+            {name:'Niels', subtotal:25, rows:[
+              {rider:'Pogacar', pos:1, pts:25}, {rider:'Roglič', pos:null, pts:0}, {rider:'Barguil', pos:null, pts:0}
+            ]}
+          ]
+        },
+        {
+          key:'wit', jersey:'wit', label:'Wit — jongerenklassement (3 picks)',
+          actualTop:['Pogačar','Vingegaard','Gaudu','Paret-Peintre','Higuita'],
+          winner:'Niels',
+          cols:[
+            {name:'Mutti', subtotal:55, rows:[
+              {rider:'Pogacar', pos:1, pts:25}, {rider:'Higuita', pos:5, pts:12}, {rider:'Paret-Peintre', pos:4, pts:18}
+            ]},
+            {name:'Niels', subtotal:61, rows:[
+              {rider:'Pogacar', pos:1, pts:25}, {rider:'Gaudu', pos:3, pts:18}, {rider:'Vingegaard', pos:2, pts:18}
+            ]}
+          ]
+        },
+        {
+          key:'nlbonus', jersey:'nlbonus', label:'Nederlandse ritzege — bonusgok (2 gokken, max 50 pt)', bonus:true,
+          note:'Nederlandse ritwinnaars in 2021: Mathieu van der Poel (etappe 2) · Bauke Mollema (etappe 14). Toevallig ook hier 25 om 25.',
+          winner:null,
+          cols:[
+            {name:'Mutti', subtotal:25, rows:[
+              {rider:'Van der Poel', hit:true, pts:25}, {rider:'Bol', hit:false, pts:0}
+            ]},
+            {name:'Niels', subtotal:25, rows:[
+              {rider:'Kelderman', hit:false, pts:0}, {rider:'Van der Poel', hit:true, pts:25}
+            ]}
+          ]
+        }
+      ]
     }
   };
 
@@ -433,14 +603,18 @@
     if(pts === undefined) return '';
     return '<span class="pts-pill'+(pts>0?' hit':'')+'">'+(pts>0?'+':'')+pts+'</span>';
   }
+  function bonusPill(hit){
+    return '<span class="pos-pill'+(hit?' hit':' x')+'">'+(hit?'✓ ritzege':'geen ritzege')+'</span>';
+  }
 
-  function renderCol(col, isWinner){
+  function renderCol(col, isWinner, isBonus){
     var rows = col.rows.map(function(r, i){
       var hit = r.pts !== undefined && r.pts >= 15;
+      var marker = isBonus ? bonusPill(!!r.hit) : posPill(r.pos, hit);
       return '<div class="pick-row">'+
         '<span class="slot">'+(i+1)+'</span>'+
         '<span class="rider">'+r.rider+'</span>'+
-        posPill(r.pos, hit)+
+        marker+
         ptsPill(r.pts)+
         '</div>';
     }).join('');
@@ -456,16 +630,18 @@
     html += '<div class="jersey-banner jb-'+c.jersey+'"><span class="label-text">'+c.label+'</span></div>';
     if(c.single){
       html += '<div class="class-sub">werkelijke winnaar: '+c.actualWinnerName+'</div>';
+    } else if(c.bonus){
+      html += '<div class="actual-top">'+c.note+'</div>';
     } else if(c.actualTop){
       html += '<div class="actual-top"><b>werkelijke top</b>'+c.actualTop.join(' · ')+(c.actualNote?' <span style="color:#b6a58a">'+c.actualNote+'</span>':'')+'</div>';
     }
     if(c.tie){
-      html += '<div class="tie-banner">🤝 Gelijkspel — 77 om 77</div>';
+      html += '<div class="tie-banner">🤝 Gelijkspel — '+c.cols[0].subtotal+' om '+c.cols[1].subtotal+'</div>';
       html += '<div class="footnote-small">'+c.tieNote+'</div>';
     }
     html += '<div class="cols '+colsClass+'">';
     c.cols.forEach(function(col){
-      html += renderCol(col, col.name === c.winner);
+      html += renderCol(col, col.name === c.winner, !!c.bonus);
     });
     html += '</div>';
     html += '</div>';
@@ -494,7 +670,7 @@
     return html;
   }
 
-  var years = [2026, 2025, 2023];
+  var years = [2026, 2025, 2024, 2023, 2022, 2021];
   var tabsEl = document.querySelector('.year-tabs');
   var panelsEl = document.getElementById('panels');
 
