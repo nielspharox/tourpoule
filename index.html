@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TOUR DU NORISKNOFUN — de poule-archieven</title>
-<meta name="description" content="De uitslagen van drie jaargangen Tourpoule tussen Niels en Mutti (en ooit even AI): 2023, 2025 en 2026.">
+<meta name="description" content="De uitslagen van 6 jaargangen Tourpoule tussen Niels en Mutti, plus het algemeen klassement over alle jaren heen.">
 <style>
   :root{
     --chalk:#f3ede0;
@@ -17,6 +17,8 @@
     --green:#2f9e59;
     --red:#c93f3f;
     --orange:#f2790a;
+    --niels:#3b6fb8;
+    --mutti:#b1502e;
     --steel:#7c8aa0;
     --font-display: 'Arial Narrow', 'Helvetica Neue Condensed Bold', 'Helvetica Neue', Arial, sans-serif;
     --font-body: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
@@ -166,6 +168,31 @@
 
   .footnote{text-align:center;font-family:var(--font-mono);font-size:11px;color:var(--steel);margin-top:34px;}
 
+  /* algemeen klassement */
+  .gc-hero .hero-winner{display:inline-flex;align-items:center;gap:8px;}
+  .gc-hero .hero-winner .jshirt{filter:none;}
+  .gc-chart-wrap{overflow-x:auto;margin-top:14px;}
+  .gc-chart-wrap svg{display:block;min-width:600px;}
+  .chart-zero{stroke:#454c5e;stroke-width:1.5;stroke-dasharray:4 4;}
+  .chart-line{fill:none;stroke:#9aa3b5;stroke-width:2;}
+  .chart-year{font-family:var(--font-mono);font-size:11px;fill:#9aa3b5;text-anchor:middle;}
+  .chart-final{font-family:var(--font-display);font-weight:800;font-size:13px;letter-spacing:0.02em;}
+  .chart-zone{font-family:var(--font-display);font-size:9px;letter-spacing:0.08em;fill:#6b7386;text-transform:uppercase;}
+  .legend-riders{display:flex;gap:16px;margin-top:10px;font-family:var(--font-mono);font-size:12px;color:#c7cede;}
+  .legend-riders span{display:inline-flex;align-items:center;gap:6px;}
+  .legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+
+  .etappe-table{width:100%;border-collapse:collapse;margin-top:4px;}
+  .etappe-table td{padding:8px 10px;border-bottom:1px solid var(--chalk-dim);font-size:14.5px;}
+  .etappe-table td.et-year{font-family:var(--font-mono);font-weight:700;color:var(--steel);width:50px;}
+  .etappe-table td.et-score{font-family:var(--font-mono);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+  .col-meta{text-align:center;}
+  .col-meta .col-name{display:block;margin-bottom:4px;}
+  .col-meta-num{font-family:var(--font-mono);font-size:26px;font-weight:700;color:var(--gold-dim);}
+  .card-xl .col-meta-num{font-size:42px;}
+  .meta-years{font-family:var(--font-mono);font-size:11px;color:var(--steel);margin-top:2px;}
+
   @media (max-width:640px){
     .wordmark{font-size:26px;}
     .wordmark .sub-word{font-size:15px;}
@@ -190,19 +217,30 @@
             <circle cx="3" cy="3" r="1.6" fill="#c93f3f"/>
           </pattern>
           <path id="tshirt" d="M8,2 L4,2 L1,7 L4,10 L4,26 L20,26 L20,10 L23,7 L20,2 L16,2 C16,4.2 14.2,5.6 12,5.6 C9.8,5.6 8,4.2 8,2 Z"/>
+          <clipPath id="tshirtClip"><use href="#tshirt"/></clipPath>
         </defs>
       </svg>
-      <div class="jerseys" title="Geel · Groen · Bollen · Wit">
+      <div class="jerseys" title="Geel · Groen · Bollen · Wit · Regenboog (algemeen klassement)">
         <svg class="jshirt" viewBox="0 0 24 28" width="22" height="26"><use href="#tshirt" fill="#e8ac1f" stroke="#1c2130" stroke-width="1.2"/></svg>
         <svg class="jshirt" viewBox="0 0 24 28" width="22" height="26"><use href="#tshirt" fill="#2f9e59" stroke="#1c2130" stroke-width="1.2"/></svg>
         <svg class="jshirt" viewBox="0 0 24 28" width="22" height="26"><use href="#tshirt" fill="url(#tdfPolka)" stroke="#c93f3f" stroke-width="1.2"/></svg>
         <svg class="jshirt" viewBox="0 0 24 28" width="22" height="26"><use href="#tshirt" fill="#fdfdf9" stroke="#1c2130" stroke-width="1.2"/></svg>
+        <svg class="jshirt" viewBox="0 0 24 28" width="22" height="26">
+          <use href="#tshirt" fill="#fdfdf9" stroke="#1c2130" stroke-width="1.2"/>
+          <g clip-path="url(#tshirtClip)">
+            <rect x="0" y="9" width="24" height="2" fill="#1f5fbf"/>
+            <rect x="0" y="11" width="24" height="2" fill="#d3323a"/>
+            <rect x="0" y="13" width="24" height="2" fill="#1c2130"/>
+            <rect x="0" y="15" width="24" height="2" fill="#f0c419"/>
+            <rect x="0" y="17" width="24" height="2" fill="#2f9e59"/>
+          </g>
+        </svg>
       </div>
       <div class="wordmark">TOUR&nbsp;DU<span class="sub-word">NORISKNOFUN</span><span class="tagline">de poule-archieven</span></div>
     </div>
     <div class="masthead-meta">
       <div><b>tourdu.norisknofun.net</b></div>
-      <div>3 jaargangen · bron: procyclingstats.com</div>
+      <div>6 jaargangen · bron: procyclingstats.com</div>
     </div>
   </div>
 
@@ -670,9 +708,144 @@
     return html;
   }
 
+  var RAINBOW_SVG = '<svg class="jshirt" viewBox="0 0 24 28" width="20" height="24" style="vertical-align:middle">'+
+    '<use href="#tshirt" fill="#fdfdf9" stroke="#1c2130" stroke-width="1.2"/>'+
+    '<g clip-path="url(#tshirtClip)">'+
+    '<rect x="0" y="9" width="24" height="2" fill="#1f5fbf"/>'+
+    '<rect x="0" y="11" width="24" height="2" fill="#d3323a"/>'+
+    '<rect x="0" y="13" width="24" height="2" fill="#1c2130"/>'+
+    '<rect x="0" y="15" width="24" height="2" fill="#f0c419"/>'+
+    '<rect x="0" y="17" width="24" height="2" fill="#2f9e59"/>'+
+    '</g></svg>';
+
+  var CHRONOLOGICAL = [2021, 2022, 2023, 2024, 2025, 2026];
+
+  function renderMetaCard(key, label, sums){
+    var winner = sums.Niels === sums.Mutti ? null : (sums.Niels > sums.Mutti ? 'Niels' : 'Mutti');
+    var html = '<div class="class-card'+(key==='bollen'?' card-xl':'')+'">';
+    html += '<div class="jersey-banner jb-'+key+'"><span class="label-text">'+label+' — algemeen</span></div>';
+    html += '<div class="meta-years">meegeteld in: '+sums.years.join(', ')+'</div>';
+    if(winner === null){
+      html += '<div class="tie-banner">🤝 Gelijkspel — '+sums.Niels+' om '+sums.Mutti+'</div>';
+    }
+    html += '<div class="cols cols-2">';
+    ['Mutti','Niels'].forEach(function(name){
+      html += '<div class="col col-meta'+(name===winner?' winner':'')+'">'+
+        '<div class="col-head" style="justify-content:center"><span class="col-name">'+name+'</span></div>'+
+        '<div class="col-meta-num">'+sums[name]+' pt</div>'+
+        '</div>';
+    });
+    html += '</div></div>';
+    return html;
+  }
+
+  function renderAlgemeen(){
+    var cum = {Niels:0, Mutti:0};
+    var points = [];
+    CHRONOLOGICAL.forEach(function(y){
+      var d = DATA[y];
+      var byName = {};
+      d.totals.forEach(function(t){ byName[t.name] = t.pts; });
+      cum.Niels += byName.Niels || 0;
+      cum.Mutti += byName.Mutti || 0;
+      var sorted = d.totals.slice().sort(function(a,b){ return b.pts - a.pts; });
+      points.push({
+        year: y,
+        cumNiels: cum.Niels, cumMutti: cum.Mutti,
+        gap: cum.Niels - cum.Mutti,
+        winner: sorted[0].name,
+        scoreText: sorted[0].name+' '+sorted[0].pts+' — '+sorted[1].pts+' ('+sorted[1].name+')'
+      });
+    });
+    var finalP = points[points.length-1];
+    var gcWinner = finalP.gap >= 0 ? 'Niels' : 'Mutti';
+    var gcMargin = Math.abs(finalP.gap);
+
+    var W=780, H=210, marginX=50, centerY=105;
+    var stepX = (W - 2*marginX) / (CHRONOLOGICAL.length-1);
+    var maxAbs = Math.max.apply(null, points.map(function(p){ return Math.abs(p.gap); }));
+    var scale = 85 / (maxAbs*1.15);
+    function xFor(i){ return marginX + i*stepX; }
+    function yFor(gap){ return centerY - gap*scale; }
+
+    var pathD = points.map(function(p,i){ return (i===0?'M':'L')+xFor(i).toFixed(1)+','+yFor(p.gap).toFixed(1); }).join(' ');
+    var dotsSvg = points.map(function(p,i){
+      var x=xFor(i), y=yFor(p.gap);
+      var color = p.gap >= 0 ? 'var(--niels)' : 'var(--mutti)';
+      return '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="5" fill="'+color+'" stroke="#fff" stroke-width="1.5"/>'+
+        '<text x="'+x.toFixed(1)+'" y="'+(H-14)+'" class="chart-year">'+p.year+'</text>';
+    }).join('');
+    var finalX = xFor(CHRONOLOGICAL.length-1), finalY = yFor(finalP.gap);
+    var finalLabel = '<text x="'+finalX.toFixed(1)+'" y="'+(finalY + (finalP.gap>=0?-12:20)).toFixed(1)+'" text-anchor="middle" class="chart-final" fill="'+(finalP.gap>=0?'var(--niels)':'var(--mutti)')+'">'+gcWinner+' +'+gcMargin+'</text>';
+
+    var chartSvg = '<div class="gc-chart-wrap"><svg viewBox="0 0 '+W+' '+H+'">'+
+      '<text x="'+marginX+'" y="16" class="chart-zone">Niels voor</text>'+
+      '<text x="'+marginX+'" y="'+(H-2)+'" class="chart-zone">Mutti voor</text>'+
+      '<line x1="'+marginX+'" y1="'+centerY+'" x2="'+(W-marginX)+'" y2="'+centerY+'" class="chart-zero"/>'+
+      '<path d="'+pathD+'" class="chart-line"/>'+
+      dotsSvg+
+      finalLabel+
+      '</svg></div>';
+
+    var etappeRows = points.map(function(p){
+      return '<tr><td class="et-year">'+p.year+'</td><td>'+p.scoreText+'</td><td class="et-score">gat: '+(p.gap>=0?'Niels +':'Mutti +')+Math.abs(p.gap)+'</td></tr>';
+    }).join('');
+
+    var subKeys = [
+      {key:'geel', label:'Geel'},
+      {key:'groen', label:'Groen'},
+      {key:'bollen', label:'Bollen'},
+      {key:'wit', label:'Wit'}
+    ];
+    var subSums = {};
+    subKeys.forEach(function(sk){ subSums[sk.key] = {Niels:0, Mutti:0, years:[]}; });
+    CHRONOLOGICAL.forEach(function(y){
+      DATA[y].classifications.forEach(function(c){
+        if(c.bonus || c.single || !subSums[c.key]) return;
+        c.cols.forEach(function(col){ subSums[c.key][col.name] += col.subtotal; });
+        subSums[c.key].years.push(y);
+      });
+    });
+
+    var html = '<div class="section hero gc-hero">';
+    html += '<div class="hero-row"><span class="hero-winner">'+RAINBOW_SVG+' '+gcWinner+' leidt het algemeen klassement</span>'+
+      '<span class="hero-score"><span class="lead">'+(gcWinner==='Niels'?finalP.cumNiels:finalP.cumMutti)+'</span> — '+(gcWinner==='Niels'?finalP.cumMutti:finalP.cumNiels)+' ('+(gcWinner==='Niels'?'Mutti':'Niels')+')</span></div>';
+    html += '<div class="hero-note">Optelsom van alle 6 jaargangen (2021 t/m 2026) — elke jaargang telt als één etappe. '+gcWinner+' leidt met '+gcMargin+' punten verschil.</div>';
+    html += '<div class="legend-riders"><span><span class="legend-dot" style="background:var(--niels)"></span>Niels voor</span><span><span class="legend-dot" style="background:var(--mutti)"></span>Mutti voor</span></div>';
+    html += chartSvg;
+    html += '</div>';
+
+    html += '<div class="section"><p class="eyebrow">Etappe-uitslagen</p><div class="table-scroll"><table class="etappe-table">'+etappeRows+'</table></div></div>';
+
+    html += '<div class="section"><p class="eyebrow">Subcategorieën — algemeen</p>';
+    subKeys.forEach(function(sk){ html += renderMetaCard(sk.key, sk.label, subSums[sk.key]); });
+    html += '</div>';
+
+    return html;
+  }
+
   var years = [2026, 2025, 2024, 2023, 2022, 2021];
+  var allIds = ['algemeen'].concat(years);
   var tabsEl = document.querySelector('.year-tabs');
   var panelsEl = document.getElementById('panels');
+  var tabEls = [];
+
+  (function(){
+    var tab = document.createElement('button');
+    tab.className = 'year-tab';
+    tab.setAttribute('role','tab');
+    tab.setAttribute('aria-selected', 'false');
+    tab.innerHTML = RAINBOW_SVG + '<span class="sub">algemeen</span>';
+    tab.addEventListener('click', function(){ selectYear('algemeen'); });
+    tabsEl.appendChild(tab);
+    tabEls.push(tab);
+
+    var panel = document.createElement('div');
+    panel.className = 'year-panel';
+    panel.id = 'panel-algemeen';
+    panel.innerHTML = renderAlgemeen();
+    panelsEl.appendChild(panel);
+  })();
 
   years.forEach(function(y){
     var tab = document.createElement('button');
@@ -683,6 +856,7 @@
     tab.innerHTML = y + '<span class="sub">'+w.name+' wint</span>';
     tab.addEventListener('click', function(){ selectYear(y); });
     tabsEl.appendChild(tab);
+    tabEls.push(tab);
 
     var panel = document.createElement('div');
     panel.className = 'year-panel' + (y === 2026 ? ' active' : '');
@@ -691,12 +865,12 @@
     panelsEl.appendChild(panel);
   });
 
-  function selectYear(y){
-    years.forEach(function(yy){
-      document.getElementById('panel-'+yy).classList.toggle('active', yy === y);
+  function selectYear(id){
+    allIds.forEach(function(aid){
+      document.getElementById('panel-'+aid).classList.toggle('active', aid === id);
     });
-    Array.prototype.forEach.call(tabsEl.children, function(tab, i){
-      tab.setAttribute('aria-selected', years[i] === y ? 'true' : 'false');
+    tabEls.forEach(function(tab, i){
+      tab.setAttribute('aria-selected', allIds[i] === id ? 'true' : 'false');
     });
   }
 })();
