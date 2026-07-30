@@ -17,8 +17,8 @@
     --green:#2f9e59;
     --red:#c93f3f;
     --orange:#f2790a;
-    --niels:#2f5f8a;
-    --mutti:#b5501f;
+    --niels:#2d7a76;
+    --mutti:#9c3a4a;
     --steel:#7c8aa0;
     --font-display: 'Arial Narrow', 'Helvetica Neue Condensed Bold', 'Helvetica Neue', Arial, sans-serif;
     --font-body: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
@@ -200,10 +200,14 @@
   .climb-mountain{fill:var(--asphalt-2);}
   .climb-grid{stroke:#3a3f4d;stroke-width:1;stroke-dasharray:2 3;}
   .climb-grid-label{font-family:var(--font-mono);font-size:10px;fill:#7c8aa0;}
-  .climb-line{fill:none;stroke-width:2.5;stroke-dasharray:1 5;stroke-linecap:round;}
-  .climb-area{opacity:0.16;}
+  .climb-line{fill:none;stroke-linecap:round;}
+  .climb-area{opacity:0.12;}
   .climb-name{font-family:var(--font-display);font-weight:800;font-size:13px;letter-spacing:0.02em;}
+  .climb-name-lg{font-size:17px;}
   .climb-wrap .chart-year{fill:#9aa3b5;}
+  .climb-wrap-lg svg{min-width:680px;}
+  .climb-wrap-lg .chart-year{font-size:13px;}
+  .climb-wrap-lg .climb-grid-label{font-size:12px;}
 
   .etappe-table{width:100%;border-collapse:collapse;margin-top:4px;}
   .etappe-table td{padding:8px 10px;border-bottom:1px solid var(--chalk-dim);font-size:14.5px;}
@@ -779,6 +783,9 @@
     var W = opts.W || 340, H = opts.H || 150;
     var marginX = opts.marginX || 26, marginTop = opts.marginTop || 14, marginBottom = opts.marginBottom || 24;
     var ceiling = opts.ceiling; // if set, fixed scale (e.g. 1000); otherwise auto from data
+    var lineWidth = opts.lineWidth || 1.3;
+    var dashArray = opts.dashArray || '0.4 4';
+    var dotR = opts.dotR || 2.2;
     var n = series.length;
     var stepX = n > 1 ? (W-2*marginX)/(n-1) : 0;
     var maxV = ceiling || Math.max.apply(null, series.map(function(p){ return Math.max(p.cumNiels, p.cumMutti); }))*1.1;
@@ -809,9 +816,11 @@
       var pathD = series.map(function(p,i){ return (i===0?'M':'L')+xFor(i).toFixed(1)+','+yFor(p[key]).toFixed(1); }).join(' ');
       var areaD = pathD+' L'+xFor(n-1).toFixed(1)+','+baseY+' L'+xFor(0).toFixed(1)+','+baseY+' Z';
       var dots = series.map(function(p,i){
-        return '<circle cx="'+xFor(i).toFixed(1)+'" cy="'+yFor(p[key]).toFixed(1)+'" r="3.5" fill="'+color+'" stroke="#171a21" stroke-width="1.3"/>';
+        return '<circle cx="'+xFor(i).toFixed(1)+'" cy="'+yFor(p[key]).toFixed(1)+'" r="'+dotR+'" fill="'+color+'" stroke="#171a21" stroke-width="1"/>';
       }).join('');
-      return {pathD:pathD, areaD:areaD, dots:dots, endX:xFor(n-1), endY:yFor(series[n-1][key])};
+      var line = '<path d="'+pathD+'" class="climb-line" stroke="'+color+'" style="stroke-width:'+lineWidth+'px;stroke-dasharray:'+dashArray+'"/>';
+      var area = '<path d="'+areaD+'" class="climb-area" fill="'+color+'"/>';
+      return {pathD:pathD, areaD:areaD, dots:dots, line:line, area:area, endX:xFor(n-1), endY:yFor(series[n-1][key])};
     }
 
     var mutti = lineFor('cumMutti', 'var(--mutti)');
@@ -827,10 +836,8 @@
         '<rect x="0" y="0" width="'+W+'" height="'+H+'" class="climb-bg" fill="var(--asphalt)"/>'+
         '<polygon points="'+mountainPts.join(' ')+'" class="climb-mountain"/>'+
         gridSvg+
-        '<path d="'+mutti.areaD+'" class="climb-area" fill="var(--mutti)"/>'+
-        '<path d="'+niels.areaD+'" class="climb-area" fill="var(--niels)"/>'+
-        '<path d="'+mutti.pathD+'" class="climb-line" stroke="var(--mutti)"/>'+
-        '<path d="'+niels.pathD+'" class="climb-line" stroke="var(--niels)"/>'+
+        mutti.area + niels.area +
+        mutti.line + niels.line +
         mutti.dots + niels.dots + yearLabels,
       mutti: mutti, niels: niels
     };
@@ -864,7 +871,10 @@
   }
 
   function renderClimbOverview(points, gcWinner){
-    var c = buildClimb(points, {W:780, H:270, marginX:50, marginTop:22, marginBottom:34, ceiling:1000});
+    var c = buildClimb(points, {
+      W:780, H:340, marginX:56, marginTop:92, marginBottom:40, ceiling:1000,
+      lineWidth:1.7, dotR:3.4, dashArray:'0.6 5.5'
+    });
     var leadEnd = gcWinner==='Niels' ? c.niels : c.mutti;
     var otherEnd = gcWinner==='Niels' ? c.mutti : c.niels;
     var leadColor = gcWinner==='Niels' ? 'var(--niels)' : 'var(--mutti)';
@@ -872,13 +882,13 @@
     var otherName = gcWinner==='Niels' ? 'Mutti' : 'Niels';
 
     var labels = ''+
-      '<use href="#bike" x="'+(leadEnd.endX-13)+'" y="'+(leadEnd.endY-30)+'" width="24" height="24" style="color:'+leadColor+'"/>'+
-      '<text x="'+(leadEnd.endX-9)+'" y="'+(leadEnd.endY-34)+'" text-anchor="end" class="climb-name" fill="'+leadColor+'">'+gcWinner+'</text>'+
-      '<svg x="'+(leadEnd.endX-4)+'" y="'+(leadEnd.endY-49)+'" width="15" height="18" viewBox="0 0 24 28"><use href="#tshirt" fill="#fdfdf9" stroke="#1c2130" stroke-width="1.2"/><g clip-path="url(#tshirtClip)"><rect x="0" y="9" width="24" height="2" fill="#1f5fbf"/><rect x="0" y="11" width="24" height="2" fill="#d3323a"/><rect x="0" y="13" width="24" height="2" fill="#1c2130"/><rect x="0" y="15" width="24" height="2" fill="#f0c419"/><rect x="0" y="17" width="24" height="2" fill="#2f9e59"/></g></svg>'+
-      '<use href="#bike" x="'+(otherEnd.endX-13)+'" y="'+(otherEnd.endY-30)+'" width="24" height="24" style="color:'+otherColor+'"/>'+
-      '<text x="'+otherEnd.endX+'" y="'+(otherEnd.endY-34)+'" text-anchor="middle" class="climb-name" fill="'+otherColor+'">'+otherName+'</text>';
+      '<use href="#bike" x="'+(leadEnd.endX-15)+'" y="'+(leadEnd.endY-34)+'" width="30" height="30" style="color:'+leadColor+'"/>'+
+      '<text x="'+(leadEnd.endX-10)+'" y="'+(leadEnd.endY-40)+'" text-anchor="end" class="climb-name climb-name-lg" fill="'+leadColor+'">'+gcWinner+'</text>'+
+      '<svg x="'+(leadEnd.endX-3)+'" y="'+(leadEnd.endY-59)+'" width="19" height="23" viewBox="0 0 24 28"><use href="#tshirt" fill="#fdfdf9" stroke="#1c2130" stroke-width="1.2"/><g clip-path="url(#tshirtClip)"><rect x="0" y="9" width="24" height="2" fill="#1f5fbf"/><rect x="0" y="11" width="24" height="2" fill="#d3323a"/><rect x="0" y="13" width="24" height="2" fill="#1c2130"/><rect x="0" y="15" width="24" height="2" fill="#f0c419"/><rect x="0" y="17" width="24" height="2" fill="#2f9e59"/></g></svg>'+
+      '<use href="#bike" x="'+(otherEnd.endX-15)+'" y="'+(otherEnd.endY-34)+'" width="30" height="30" style="color:'+otherColor+'"/>'+
+      '<text x="'+otherEnd.endX+'" y="'+(otherEnd.endY-40)+'" text-anchor="middle" class="climb-name climb-name-lg" fill="'+otherColor+'">'+otherName+'</text>';
 
-    return '<div class="gc-chart-wrap climb-wrap"><svg viewBox="0 0 '+c.W+' '+c.H+'">'+c.svgInner+labels+'</svg></div>';
+    return '<div class="gc-chart-wrap climb-wrap climb-wrap-lg"><svg viewBox="0 0 '+c.W+' '+c.H+'">'+c.svgInner+labels+'</svg></div>';
   }
 
   function renderTruiStrip(gcWinner, subSums){
