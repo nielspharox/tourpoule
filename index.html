@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOUR DU NORISKNOFUN — de poule-archieven</title>
+<meta name="description" content="De uitslagen van drie jaargangen Tourpoule tussen Niels en Mutti (en ooit even AI): 2023, 2025 en 2026.">
+<style>
+  :root{
+    --chalk:#f3ede0;
+    --chalk-dim:#e7ddc8;
+    --ink:#1c2130;
+    --asphalt:#20232c;
+    --asphalt-2:#2b2f3a;
+    --gold:#e8ac1f;
+    --gold-dim:#b8860f;
+    --green:#2f9e59;
+    --red:#c93f3f;
+    --steel:#7c8aa0;
+    --font-display: 'Arial Narrow', 'Helvetica Neue Condensed Bold', 'Helvetica Neue', Arial, sans-serif;
+    --font-body: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+    --font-mono: 'SF Mono', Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:
+      radial-gradient(circle at 1px 1px, rgba(28,33,48,0.05) 1px, transparent 1.5px) 0 0/14px 14px,
+      var(--chalk);
+    color:var(--ink);
+    font-family:var(--font-body);
+    min-height:100%;
+    padding:24px 14px 60px;
+  }
+  .wrap{max-width:960px;margin:0 auto;}
+
+  .masthead{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;
+    border-bottom:3px solid var(--ink);
+    padding-bottom:14px;margin-bottom:18px;
+  }
+  .logo-row{display:flex;align-items:center;gap:10px;}
+  .jerseys{display:flex;gap:2px;flex:none;}
+  .jshirt{flex:none;filter:drop-shadow(1px 1px 0 rgba(28,33,48,0.3));}
+  .wordmark{
+    font-family:var(--font-display);font-weight:800;font-stretch:condensed;
+    letter-spacing:0.03em;font-size:34px;line-height:0.92;text-transform:uppercase;
+  }
+  .wordmark .sub-word{
+    display:block;font-size:18px;color:var(--gold-dim);letter-spacing:0.04em;margin-top:1px;
+  }
+  .wordmark .tagline{
+    display:block;font-size:11px;letter-spacing:0.2em;color:var(--steel);font-weight:700;margin-top:5px;
+  }
+  .masthead-meta{text-align:right;font-family:var(--font-mono);font-size:12px;color:var(--steel);line-height:1.6;}
+  .masthead-meta b{color:var(--ink);}
+
+  /* year tabs */
+  .year-tabs{display:flex;gap:8px;margin-bottom:22px;}
+  .year-tab{
+    font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:0.05em;
+    font-size:15px;padding:9px 18px;background:transparent;border:2px solid var(--ink);color:var(--ink);
+    cursor:pointer;flex:none;
+  }
+  .year-tab[aria-selected="true"]{background:var(--ink);color:var(--chalk);}
+  .year-tab .sub{display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:0.02em;font-weight:400;text-transform:none;color:inherit;opacity:0.75;}
+
+  .year-panel{display:none;}
+  .year-panel.active{display:block;}
+
+  .eyebrow{
+    font-family:var(--font-display);text-transform:uppercase;letter-spacing:0.14em;font-size:11px;
+    font-weight:700;color:var(--steel);margin:0 0 6px;
+  }
+  .section{margin-bottom:28px;}
+
+  /* hero */
+  .hero{
+    background:var(--asphalt);color:var(--chalk);padding:20px 22px;
+    clip-path:polygon(0 10px,10px 10px,10px 0,calc(100% - 10px) 0,calc(100% - 10px) 10px,100% 10px,100% calc(100% - 10px),calc(100% - 10px) calc(100% - 10px),calc(100% - 10px) 100%,10px 100%,10px calc(100% - 10px),0 calc(100% - 10px));
+  }
+  .hero-row{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;}
+  .hero-winner{font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:26px;letter-spacing:0.01em;color:var(--gold);}
+  .hero-score{font-family:var(--font-mono);font-size:18px;color:var(--chalk);font-variant-numeric:tabular-nums;}
+  .hero-score .lead{color:var(--gold);font-weight:700;}
+  .hero-note{font-family:var(--font-body);font-size:14.5px;color:#c7cede;margin-top:8px;line-height:1.5;max-width:62ch;}
+
+  /* classification card */
+  .class-card{
+    background:#fff;border:2px solid var(--ink);padding:0 18px 18px;margin-top:16px;overflow:hidden;
+  }
+  .jersey-banner{
+    margin:0 -18px 14px;padding:9px 18px;
+    font-family:var(--font-display);text-transform:uppercase;font-weight:800;
+    font-size:15px;letter-spacing:0.03em;position:relative;
+  }
+  .jersey-banner .label-text{position:relative;z-index:1;}
+  .jersey-banner.jb-geel{background:var(--gold);color:var(--ink);}
+  .jersey-banner.jb-groen{background:var(--green);color:#fff;}
+  .jersey-banner.jb-wit{background:#fdfdf9;color:var(--ink);border-bottom:3px solid #d8d8d0;}
+  .jersey-banner.jb-strijd{background:var(--red);color:#fff;}
+  .jersey-banner.jb-bollen{background:#fff;color:var(--red);border-bottom:3px solid var(--red);}
+  .jersey-banner.jb-bollen::before{
+    content:'';position:absolute;inset:0;
+    background-image:radial-gradient(var(--red) 24%, transparent 26%);
+    background-size:15px 15px;opacity:0.22;
+  }
+  .class-sub{font-family:var(--font-mono);font-size:11.5px;color:var(--steel);margin-top:2px;}
+  .actual-top{
+    font-family:var(--font-mono);font-size:12.5px;color:var(--ink);margin-top:2px;
+    background:var(--chalk);border:1px dashed var(--chalk-dim);padding:8px 10px;
+  }
+  .actual-top b{color:var(--steel);font-family:var(--font-display);letter-spacing:0.06em;font-size:10px;text-transform:uppercase;font-weight:700;margin-right:6px;}
+
+  .cols{display:grid;gap:12px;margin-top:12px;overflow-x:auto;}
+  .cols-2{grid-template-columns:repeat(2,minmax(220px,1fr));}
+  .cols-3{grid-template-columns:repeat(3,minmax(200px,1fr));}
+  .col{border:1px solid var(--chalk-dim);padding:10px 12px;}
+  .col.winner{border-color:var(--green);background:rgba(47,158,89,0.06);}
+  .col-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .col-name{font-weight:700;font-size:15.5px;}
+  .col.winner .col-name::after{content:" 🏆";}
+  .col-sub{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--gold-dim);font-variant-numeric:tabular-nums;}
+  .pick-row{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--chalk-dim);font-size:14px;}
+  .pick-row:last-child{border-bottom:none;}
+  .slot{font-family:var(--font-mono);color:var(--steel);font-size:11px;width:14px;flex:none;}
+  .rider{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .pos-pill{
+    font-family:var(--font-mono);font-size:11px;font-variant-numeric:tabular-nums;
+    padding:1px 6px;border:1px solid var(--chalk-dim);color:var(--steel);flex:none;
+  }
+  .pos-pill.hit{border-color:var(--green);color:var(--green);font-weight:700;}
+  .pos-pill.x{border-style:dashed;color:#b6a58a;}
+  .pts-pill{font-family:var(--font-mono);font-size:13px;font-weight:700;width:34px;text-align:right;flex:none;color:var(--steel);}
+  .pts-pill.hit{color:var(--gold-dim);}
+
+  /* bollen gets the spotlight — roughly 2x the type scale of a normal card */
+  .card-xl{border-width:3px;padding-bottom:26px;}
+  .card-xl .jersey-banner{font-size:27px;padding:16px 24px;}
+  .card-xl .actual-top{font-size:16px;padding:12px 14px;}
+  .card-xl .tie-banner{font-size:19px;padding:12px 16px;}
+  .card-xl .col-name{font-size:21px;}
+  .card-xl .col-sub{font-size:19px;}
+  .card-xl .pick-row{font-size:19px;padding:7px 0;gap:10px;}
+  .card-xl .slot{font-size:13px;width:18px;}
+  .card-xl .pos-pill{font-size:14px;padding:2px 8px;}
+  .card-xl .pts-pill{font-size:18px;width:46px;}
+
+  .tie-banner{
+    font-family:var(--font-display);text-transform:uppercase;font-weight:800;letter-spacing:0.04em;
+    font-size:13px;background:linear-gradient(90deg,var(--gold) 0 50%,var(--green) 50% 100%);color:var(--ink);
+    padding:8px 12px;margin-top:2px;text-align:center;
+  }
+  .footnote-small{font-family:var(--font-mono);font-size:11px;color:var(--steel);margin-top:10px;line-height:1.5;}
+
+  /* legend */
+  .legend-card{background:var(--asphalt);color:var(--chalk);padding:18px 20px;margin-top:8px;}
+  .legend-card .eyebrow{color:#9aa3b5;}
+  .legend-title{font-family:var(--font-display);text-transform:uppercase;font-weight:800;font-size:17px;color:#fff;}
+  .legend-table{width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:13px;margin-top:10px;}
+  .legend-table th,.legend-table td{padding:6px 8px;text-align:center;border-bottom:1px solid #3a3f4d;font-variant-numeric:tabular-nums;}
+  .legend-table th{color:#9aa3b5;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--font-display);}
+  .legend-body-text{font-family:var(--font-body);font-size:14.5px;color:#dfe3ee;line-height:1.6;margin-top:12px;max-width:64ch;}
+
+  .footnote{text-align:center;font-family:var(--font-mono);font-size:11px;color:var(--steel);margin-top:34px;}
+
+  @media (max-width:640px){
+    .wordmark{font-size:26px;}
+    .wordmark .sub-word{font-size:15px;}
+    .cols-2,.cols-3{grid-template-columns:1fr;}
+    .year-tab{font-size:13px;padding:8px 12px;}
+    .jshirt{width:19px;height:23px;}
+    .card-xl .jersey-banner{font-size:21px;}
+    .card-xl .col-name{font-size:18px;}
+    .card-xl .pick-row{font-size:16px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="logo-row">
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <pattern id="tdfPolka" width="6" height="6" patternUnits="userSpaceOnUse">
+            <rect width="6" height="6" fill="#ffffff"/>
+            <circle cx="3" cy="3" r="1.6" fill="#c93f3f"/>
+          </pattern>
+          <path id="tshirt" d="M8,2 L4,2 L1,7 L4,10 L4,26 L20,26 L20,10 L23,7 L20,2 L16,2 C16,4.2 14.2,5.6 12,5.6 C9.8,5.6 8,4.2 8,2 Z"/>
+        </defs>
+      </svg>
+      <div class="jerseys" title="Geel · Groen · Bollen · Wit">
+        <svg class="jshirt" viewBox="0 0 24 28" width="22" height="26"><use href="#tshirt" fill="#e8ac1f" stroke="#1c2130" stroke-width="1.2"/></svg>
+        <svg class="jshirt" viewBox="0 0 24 28" width="22" height="26"><use href="#tshirt" fill="#2f9e59" stroke="#1c2130" stroke-width="1.2"/></svg>
+        <svg class="jshirt" viewBox="0 0 24 28" width="22" height="26"><use href="#tshirt" fill="url(#tdfPolka)" stroke="#c93f3f" stroke-width="1.2"/></svg>
+        <svg class="jshirt" viewBox="0 0 24 28" width="22" height="26"><use href="#tshirt" fill="#fdfdf9" stroke="#1c2130" stroke-width="1.2"/></svg>
+      </div>
+      <div class="wordmark">TOUR&nbsp;DU<span class="sub-word">NORISKNOFUN</span><span class="tagline">de poule-archieven</span></div>
+    </div>
+    <div class="masthead-meta">
+      <div><b>tourdu.norisknofun.net</b></div>
+      <div>3 jaargangen · bron: procyclingstats.com</div>
+    </div>
+  </div>
+
+  <div class="year-tabs" role="tablist"></div>
+  <div id="panels"></div>
+
+  <div class="section legend-card">
+    <p class="eyebrow">Spelregels</p>
+    <div class="legend-title">F1-puntentelling per gok</div>
+    <table class="legend-table">
+      <thead><tr><th>Plekken ernaast</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10+ / x</th></tr></thead>
+      <tbody><tr><th>Punten</th><td>25</td><td>18</td><td>15</td><td>12</td><td>10</td><td>8</td><td>6</td><td>4</td><td>2</td><td>1</td><td>0</td></tr></tbody>
+    </table>
+    <p class="legend-body-text">
+      Elke deelnemer voorspelt vooraf de top 5 van elk klassement (Groen en Bollen hadden in 2023 maar 3 voorspellingen per persoon). Punten volgen uit het verschil tussen de voorspelde plek en de werkelijke eindpositie — exact goed levert 25 op, en elke plek ernaast kost punten volgens de tabel. Een gestreepte <b style="color:#fff">x</b> betekent dat de renner niet in het eindklassement stond (uitgevallen of buiten de uitslag) — dat levert net als 10+ plekken ernaast 0 punten op, maar is een ander soort mis dan een renner die wél reed maar ver weg eindigde. De <b style="color:#fff">Strijdlustigste renner</b> (nieuw in 2026) is één losse gok: goed = 25 punten, fout = 0.
+    </p>
+  </div>
+
+  <p class="footnote">tourdu.norisknofun.net · gebouwd met Claude Code</p>
+</div>
+
+<script>
+(function(){
+
+  var DATA = {
+    2026: {
+      year: 2026,
+      totals: [ {name:'Niels', pts:263}, {name:'Mutti', pts:258} ],
+      note: "Kleinste verschil in de poule-geschiedenis (5 punten) — en Niels wint de editie terwijl hij maar 1 van de 5 deelklassementen op zijn naam schrijft.",
+      classifications: [
+        {
+          key:'geel', jersey:'geel', label:'Geel — algemeen klassement',
+          actualTop:['Pogačar','Evenepoel','Del Toro','Seixas','L. Martinez'],
+          winner:'Mutti',
+          cols:[
+            {name:'Mutti', subtotal:62, rows:[
+              {rider:'Pogačar', pos:1, pts:25},
+              {rider:'Vingegaard', pos:null, pts:0},
+              {rider:'Lipowitz', pos:null, pts:0},
+              {rider:'Seixas', pos:4, pts:25},
+              {rider:'Evenepoel', pos:2, pts:12}
+            ]},
+            {name:'Niels', subtotal:51, rows:[
+              {rider:'Vingegaard', pos:null, pts:0},
+              {rider:'Pogačar', pos:1, pts:18},
+              {rider:'Seixas', pos:4, pts:18},
+              {rider:'Lipowitz', pos:null, pts:0},
+              {rider:'Del Toro', pos:3, pts:15}
+            ]}
+          ]
+        },
+        {
+          key:'groen', jersey:'groen', label:'Groen — puntenklassement',
+          actualTop:['Pedersen','Philipsen','Girmay','Kanter','Kooij'],
+          winner:'Mutti',
+          cols:[
+            {name:'Mutti', subtotal:45, rows:[
+              {rider:'Philipsen', pos:2, pts:18},
+              {rider:'Kooij', pos:5, pts:12},
+              {rider:'Pedersen', pos:1, pts:15},
+              {rider:'Merlier', pos:null, pts:0},
+              {rider:'Godon', pos:40, pts:0}
+            ]},
+            {name:'Niels', subtotal:43, rows:[
+              {rider:'Philipsen', pos:2, pts:18},
+              {rider:'Merlier', pos:null, pts:0},
+              {rider:'Kooij', pos:5, pts:15},
+              {rider:'Godon', pos:40, pts:0},
+              {rider:'Pedersen', pos:1, pts:10}
+            ]}
+          ]
+        },
+        {
+          key:'bollen', jersey:'bollen', label:'Bollen — bergklassement', tie:true,
+          actualTop:['Carapaz','Pogačar','V. Paret-Peintre','Kuss','Evenepoel','L. Martinez'],
+          winner:null,
+          tieNote:'Mutti en Niels kozen exact dezelfde vijf namen in dezelfde volgorde — 77 om 77.',
+          cols:[
+            {name:'Mutti', subtotal:77, rows:[
+              {rider:'Carapaz', pos:1, pts:25},
+              {rider:'Pogačar', pos:2, pts:25},
+              {rider:'L. Martinez', pos:6, pts:12},
+              {rider:'Vingegaard', pos:null, pts:0},
+              {rider:'V. Paret-Peintre', pos:3, pts:15}
+            ]},
+            {name:'Niels', subtotal:77, rows:[
+              {rider:'Carapaz', pos:1, pts:25},
+              {rider:'Pogačar', pos:2, pts:25},
+              {rider:'L. Martinez', pos:6, pts:12},
+              {rider:'Vingegaard', pos:null, pts:0},
+              {rider:'V. Paret-Peintre', pos:3, pts:15}
+            ]}
+          ]
+        },
+        {
+          key:'wit', jersey:'wit', label:'Wit — jongerenklassement (nieuw in 2026)',
+          actualTop:['Del Toro','Seixas','L. Martinez','Ayuso','Piganzoli','Simmons','Riccitello'],
+          actualNote:'(14e: Baudin)',
+          winner:'Mutti',
+          cols:[
+            {name:'Mutti', subtotal:74, rows:[
+              {rider:'Del Toro Romero', pos:1, pts:25},
+              {rider:'Seixas', pos:2, pts:25},
+              {rider:'Ayuso (Pesquera)', pos:4, pts:18},
+              {rider:'Vauquelin', pos:10, pts:6},
+              {rider:'Uijtdebroeks', pos:null, pts:0}
+            ]},
+            {name:'Niels', subtotal:67, rows:[
+              {rider:'Seixas', pos:2, pts:18},
+              {rider:'Del Toro', pos:1, pts:18},
+              {rider:'Ayuso', pos:4, pts:18},
+              {rider:'Riccitello', pos:7, pts:12},
+              {rider:'Baudin', pos:14, pts:1}
+            ]}
+          ]
+        },
+        {
+          key:'strijd', jersey:'strijd', label:'Strijdlustigste renner — bonusgok', single:true,
+          actualWinnerName:'Richard Carapaz',
+          winner:'Niels',
+          cols:[
+            {name:'Mutti', subtotal:0, rows:[{rider:'Tom Pidcock', pos:null, pts:0}]},
+            {name:'Niels', subtotal:25, rows:[{rider:'Carapaz', pos:1, pts:25}]}
+          ]
+        }
+      ]
+    },
+
+    2025: {
+      year: 2025,
+      totals: [ {name:'Mutti', pts:144}, {name:'Niels', pts:130} ],
+      note: "Mutti pakt de editie dankzij ruime marges in Geel en Bollen — Niels wint alleen Groen, maar wel met de grootste marge van de drie klassementen (47 om 31). AI deed in 2025 ook mee en won toen alles met 173 punten, maar telt hier niet meer mee. Subtotalen hieronder zijn herberekend op de bevestigde procyclingstats-uitslag, niet op het oorspronkelijke sheet.",
+      classifications: [
+        {
+          key:'geel', jersey:'geel', label:'Geel — algemeen klassement',
+          actualTop:['Pogačar','Vingegaard','Lipowitz','Onley','Gall','Johannessen','Vauquelin','Roglič'],
+          winner:'Mutti',
+          cols:[
+            {name:'Mutti', subtotal:68, rows:[
+              {rider:'Pogačar', pos:1, pts:25}, {rider:'Vingegaard', pos:2, pts:25}, {rider:'Almeida', pos:null, pts:0}, {rider:'Lipowitz', pos:3, pts:18}, {rider:'L. Martinez', pos:89, pts:0}
+            ]},
+            {name:'Niels', subtotal:44, rows:[
+              {rider:'Vingegaard', pos:2, pts:18}, {rider:'Pogačar', pos:1, pts:18}, {rider:'Roglič', pos:8, pts:8}, {rider:'Evenepoel', pos:null, pts:0}, {rider:'Almeida', pos:null, pts:0}
+            ]}
+          ]
+        },
+        {
+          key:'groen', jersey:'groen', label:'Groen — puntenklassement',
+          actualTop:['Milan','Pogačar','Girmay'],
+          actualNote:'(7e: Merlier · Philipsen crashte uit in etappe 3)',
+          winner:'Niels',
+          cols:[
+            {name:'Mutti', subtotal:31, rows:[
+              {rider:'Van der Poel', pos:null, pts:0}, {rider:'Philipsen', pos:null, pts:0}, {rider:'Milan', pos:1, pts:15}, {rider:'Van Aert', pos:8, pts:10}, {rider:'De Lie', pos:11, pts:6}
+            ]},
+            {name:'Niels', subtotal:47, rows:[
+              {rider:'Milan', pos:1, pts:25}, {rider:'Van der Poel', pos:null, pts:0}, {rider:'Merlier', pos:7, pts:10}, {rider:'Philipsen', pos:null, pts:0}, {rider:'Van Aert', pos:8, pts:12}
+            ]}
+          ]
+        },
+        {
+          key:'bollen', jersey:'bollen', label:'Bollen — bergklassement',
+          actualTop:['Pogačar','Vingegaard','L. Martinez','Arensman',"O'Connor / V. Paret-Peintre (gedeeld 5e)",'Gall'],
+          winner:'Mutti',
+          cols:[
+            {name:'Mutti', subtotal:45, rows:[
+              {rider:'Pogačar', pos:1, pts:25}, {rider:'Armirail', pos:14, pts:0}, {rider:'Gall', pos:7, pts:10}, {rider:'Roglič', pos:8, pts:10}, {rider:'Evenepoel', pos:null, pts:0}
+            ]},
+            {name:'Niels', subtotal:39, rows:[
+              {rider:'Gall', pos:7, pts:6}, {rider:'Pogačar', pos:1, pts:18}, {rider:'Alaphilippe', pos:null, pts:0}, {rider:'Vingegaard', pos:2, pts:15}, {rider:'Vauquelin', pos:27, pts:0}
+            ]}
+          ]
+        }
+      ]
+    },
+
+    2023: {
+      year: 2023,
+      totals: [ {name:'Niels', pts:161}, {name:'Mutti', pts:115} ],
+      note: "De enige jaargang tot nu toe met een clean sweep: Niels wint alle drie de klassementen.",
+      classifications: [
+        {
+          key:'geel', jersey:'geel', label:'Geel — algemeen klassement (5 picks)',
+          actualTop:['Vingegaard','Pogačar','A. Yates','S. Yates','Rodríguez','Bilbao','Hindley'],
+          winner:'Niels',
+          cols:[
+            {name:'Mutti', subtotal:60, rows:[
+              {rider:'Vingegaard', pos:1, pts:25}, {rider:'Pogi', pos:2, pts:25}, {rider:'Hindley', pos:7, pts:10}, {rider:'Carapaz', pos:null, pts:0}, {rider:"O'Connor", pos:17, pts:0}
+            ]},
+            {name:'Niels', subtotal:78, rows:[
+              {rider:'Vingegaard', pos:1, pts:25}, {rider:'Pogi', pos:2, pts:25}, {rider:'S. Yates', pos:4, pts:18}, {rider:'Skjelmose', pos:29, pts:0}, {rider:'Gaudu', pos:9, pts:10}
+            ]}
+          ]
+        },
+        {
+          key:'groen', jersey:'groen', label:'Groen — puntenklassement (3 picks)',
+          actualTop:['Philipsen','Pedersen','Coquard','Pogačar','Vingegaard'],
+          winner:'Niels',
+          cols:[
+            {name:'Mutti', subtotal:26, rows:[
+              {rider:'Philipsen', pos:1, pts:25}, {rider:'Van Aert', pos:null, pts:0}, {rider:'Girmay', pos:12, pts:1}
+            ]},
+            {name:'Niels', subtotal:50, rows:[
+              {rider:'Philipsen', pos:1, pts:25}, {rider:'Pedersen', pos:2, pts:25}, {rider:'Jakobsen', pos:null, pts:0}
+            ]}
+          ]
+        },
+        {
+          key:'bollen', jersey:'bollen', label:'Bollen — bergklassement (3 picks)',
+          actualTop:['Ciccone','F. Gall','Vingegaard','Powless','Pogačar'],
+          winner:'Niels',
+          cols:[
+            {name:'Mutti', subtotal:29, rows:[
+              {rider:'Pogi', pos:5, pts:10}, {rider:'Ciccone', pos:1, pts:18}, {rider:'Pinot', pos:12, pts:1}
+            ]},
+            {name:'Niels', subtotal:33, rows:[
+              {rider:'Pinot', pos:12, pts:0}, {rider:'Vingegaard', pos:3, pts:18}, {rider:'Ciccone', pos:1, pts:15}
+            ]}
+          ]
+        }
+      ]
+    }
+  };
+
+  function posPill(pos, hit){
+    if(pos === null || pos === undefined) return '<span class="pos-pill x">x</span>';
+    return '<span class="pos-pill'+(hit?' hit':'')+'">'+pos+'e</span>';
+  }
+  function ptsPill(pts){
+    if(pts === undefined) return '';
+    return '<span class="pts-pill'+(pts>0?' hit':'')+'">'+(pts>0?'+':'')+pts+'</span>';
+  }
+
+  function renderCol(col, isWinner){
+    var rows = col.rows.map(function(r, i){
+      var hit = r.pts !== undefined && r.pts >= 15;
+      return '<div class="pick-row">'+
+        '<span class="slot">'+(i+1)+'</span>'+
+        '<span class="rider">'+r.rider+'</span>'+
+        posPill(r.pos, hit)+
+        ptsPill(r.pts)+
+        '</div>';
+    }).join('');
+    return '<div class="col'+(isWinner?' winner':'')+'">'+
+      '<div class="col-head"><span class="col-name">'+col.name+'</span><span class="col-sub">'+col.subtotal+' pt</span></div>'+
+      rows+
+      '</div>';
+  }
+
+  function renderClass(c){
+    var colsClass = c.cols.length === 3 ? 'cols-3' : 'cols-2';
+    var html = '<div class="class-card'+(c.key==='bollen'?' card-xl':'')+'">';
+    html += '<div class="jersey-banner jb-'+c.jersey+'"><span class="label-text">'+c.label+'</span></div>';
+    if(c.single){
+      html += '<div class="class-sub">werkelijke winnaar: '+c.actualWinnerName+'</div>';
+    } else if(c.actualTop){
+      html += '<div class="actual-top"><b>werkelijke top</b>'+c.actualTop.join(' · ')+(c.actualNote?' <span style="color:#b6a58a">'+c.actualNote+'</span>':'')+'</div>';
+    }
+    if(c.tie){
+      html += '<div class="tie-banner">🤝 Gelijkspel — 77 om 77</div>';
+      html += '<div class="footnote-small">'+c.tieNote+'</div>';
+    }
+    html += '<div class="cols '+colsClass+'">';
+    c.cols.forEach(function(col){
+      html += renderCol(col, col.name === c.winner);
+    });
+    html += '</div>';
+    html += '</div>';
+    return html;
+  }
+
+  function renderYear(y){
+    var d = DATA[y];
+    var totalsSorted = d.totals.slice().sort(function(a,b){return b.pts - a.pts;});
+    var winner = totalsSorted[0];
+    var runnerUp = totalsSorted[1];
+    var margin = winner.pts - runnerUp.pts;
+
+    var html = '<div class="section hero">';
+    html += '<div class="hero-row"><span class="hero-winner">'+winner.name+' wint '+d.year+'</span>'+
+      '<span class="hero-score">'+totalsSorted.map(function(t){return (t===winner?'<span class="lead">'+t.pts+'</span>':t.pts)+' ('+t.name+')';}).join(' — ')+'</span></div>';
+    if(d.note){
+      html += '<div class="hero-note">'+d.note+'</div>';
+    } else {
+      html += '<div class="hero-note">Verschil met nummer 2: '+margin+' punten.</div>';
+    }
+    html += '</div>';
+
+    d.classifications.forEach(function(c){ html += renderClass(c); });
+
+    return html;
+  }
+
+  var years = [2026, 2025, 2023];
+  var tabsEl = document.querySelector('.year-tabs');
+  var panelsEl = document.getElementById('panels');
+
+  years.forEach(function(y){
+    var tab = document.createElement('button');
+    tab.className = 'year-tab';
+    tab.setAttribute('role','tab');
+    tab.setAttribute('aria-selected', y === 2026 ? 'true' : 'false');
+    var w = DATA[y].totals.slice().sort(function(a,b){return b.pts-a.pts;})[0];
+    tab.innerHTML = y + '<span class="sub">'+w.name+' wint</span>';
+    tab.addEventListener('click', function(){ selectYear(y); });
+    tabsEl.appendChild(tab);
+
+    var panel = document.createElement('div');
+    panel.className = 'year-panel' + (y === 2026 ? ' active' : '');
+    panel.id = 'panel-'+y;
+    panel.innerHTML = renderYear(y);
+    panelsEl.appendChild(panel);
+  });
+
+  function selectYear(y){
+    years.forEach(function(yy){
+      document.getElementById('panel-'+yy).classList.toggle('active', yy === y);
+    });
+    Array.prototype.forEach.call(tabsEl.children, function(tab, i){
+      tab.setAttribute('aria-selected', years[i] === y ? 'true' : 'false');
+    });
+  }
+})();
+</script>
+</body>
+</html>
