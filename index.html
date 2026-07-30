@@ -991,7 +991,21 @@
       ? otherName+' wint wel '+subcatsWon[otherName]+' van de 4 subklassementen ('+otherSubcats.join(', ')+'), maar dat is niet genoeg om het gat te dichten.'
       : gcWinner+' domineert ook de subklassementen.';
 
-    var factNote = leadPhrase+'. '+subcatClause+' '+gcWinner+' won '+yearsWon[gcWinner]+' van de 6 jaargangen tegenover '+yearsWon[otherName]+' voor '+otherName+'. Grootste verschil in één jaargang: '+biggest.yearMargin+' punten ('+biggest.year+') · krapste: '+closest.yearMargin+' punten ('+closest.year+').';
+    var subNetSum = 0, biggestSub = null;
+    subKeys.forEach(function(sk){
+      var net = subSums[sk.key][gcWinner] - subSums[sk.key][otherName];
+      subNetSum += net;
+      if(!biggestSub || net > biggestSub.net) biggestSub = {label: sk.label, net: net};
+    });
+    var restNet = subNetSum - biggestSub.net;
+    var bonusNet = gcMargin - subNetSum;
+
+    var sourceClause = 'De marge komt vooral uit '+biggestSub.label+' (+'+biggestSub.net+') — in de andere drie subklassementen staat '+gcWinner+' per saldo '+(restNet>=0?restNet+' punten voor':Math.abs(restNet)+' punten achter')+'.';
+    if(Math.abs(bonusNet) >= 1){
+      sourceClause += ' De losse bonusgokken (Strijdlustigste renner, Nederlandse ritzege — geen van beide een vast subklassement) '+(bonusNet>0?'leverden nog eens '+bonusNet+' punten extra op':'kostten juist '+Math.abs(bonusNet)+' punten')+': zonder die stond de marge op '+subNetSum+' punten in plaats van '+gcMargin+'.';
+    }
+
+    var factNote = leadPhrase+'. '+subcatClause+' '+sourceClause+' '+gcWinner+' won '+yearsWon[gcWinner]+' van de 6 jaargangen tegenover '+yearsWon[otherName]+' voor '+otherName+'. Grootste verschil in één jaargang: '+biggest.yearMargin+' punten ('+biggest.year+') · krapste: '+closest.yearMargin+' punten ('+closest.year+').';
 
     var html = '<div class="section hero gc-hero">';
     html += '<div class="hero-row"><span class="hero-winner">'+gcWinner+heldJerseys(gcWinner)+' leidt het eeuwig klassement</span>'+
