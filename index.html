@@ -208,11 +208,12 @@
   .etappe-table td.et-year{font-family:var(--font-mono);font-weight:700;color:var(--steel);width:50px;}
   .etappe-table td.et-score{font-family:var(--font-mono);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
 
-  .col-meta{text-align:center;}
-  .col-meta .col-name{display:block;margin-bottom:4px;}
-  .col-meta-num{font-family:var(--font-mono);font-size:26px;font-weight:700;color:var(--gold-dim);}
-  .card-xl .col-meta-num{font-size:42px;}
-  .meta-years{font-family:var(--font-mono);font-size:11px;color:var(--steel);margin-top:2px;}
+  .meta-card{padding-bottom:12px;}
+  .meta-years{font-family:var(--font-mono);font-size:10.5px;color:var(--steel);margin-top:2px;}
+  .meta-stat-row{display:flex;align-items:baseline;gap:8px;margin-top:8px;font-family:var(--font-mono);font-size:16px;font-weight:700;}
+  .meta-stat{color:var(--steel);display:inline-flex;align-items:center;gap:4px;}
+  .meta-stat.winner{color:var(--gold-dim);}
+  .meta-vs{color:var(--chalk-dim);font-weight:400;}
 
   @media (max-width:640px){
     .wordmark{font-size:26px;}
@@ -831,21 +832,19 @@
 
   function renderMetaCard(key, label, sums){
     var winner = sums.Niels === sums.Mutti ? null : (sums.Niels > sums.Mutti ? 'Niels' : 'Mutti');
-    var html = '<div class="class-card'+(key==='bollen'?' card-xl':'')+'">';
+    var html = '<div class="class-card meta-card">';
     html += '<div class="jersey-banner jb-'+key+'"><span class="label-text">'+label+' — eeuwig</span></div>';
     html += '<div class="meta-years">meegeteld in: '+sums.years.join(', ')+'</div>';
+    html += '<div class="meta-stat-row">';
+    ['Mutti','Niels'].forEach(function(name, i){
+      if(i>0) html += '<span class="meta-vs">—</span>';
+      var icon = name===winner ? jerseyIcon(key, 13, 16) : '';
+      html += '<span class="meta-stat'+(name===winner?' winner':'')+'">'+name+' '+sums[name]+icon+'</span>';
+    });
+    html += '</div>';
     if(winner === null){
       html += '<div class="tie-banner">🤝 Gelijkspel — '+sums.Niels+' om '+sums.Mutti+'</div>';
     }
-    html += '<div class="cols cols-2">';
-    ['Mutti','Niels'].forEach(function(name){
-      var nameMarkup = name + (name===winner ? jerseyIcon(key) : '');
-      html += '<div class="col col-meta'+(name===winner?' winner':'')+'">'+
-        '<div class="col-head" style="justify-content:center"><span class="col-name">'+nameMarkup+'</span></div>'+
-        '<div class="col-meta-num">'+sums[name]+' pt</div>'+
-        '</div>';
-    });
-    html += '</div>';
     html += trendChartSvg(sums.series);
     html += '</div>';
     return html;
@@ -948,10 +947,56 @@
       });
     });
 
+    var otherName = gcWinner==='Niels' ? 'Mutti' : 'Niels';
+
+    var yearsWon = {Niels:0, Mutti:0};
+    points.forEach(function(p){ yearsWon[p.winner]++; });
+
+    var subcatsWon = {Niels:0, Mutti:0};
+    var subcatWinner = {};
+    subKeys.forEach(function(sk){
+      var s = subSums[sk.key];
+      var w = s.Niels===s.Mutti ? null : (s.Niels>s.Mutti ? 'Niels' : 'Mutti');
+      subcatWinner[sk.key] = w;
+      if(w) subcatsWon[w]++;
+    });
+    function heldSubcatLabels(name){
+      return subKeys.filter(function(sk){ return subcatWinner[sk.key]===name; }).map(function(sk){ return sk.label; });
+    }
+    function heldJerseys(name){
+      var out = subKeys.filter(function(sk){ return subcatWinner[sk.key]===name; }).map(function(sk){ return jerseyIcon(sk.key, 14, 17); }).join('');
+      if(name===gcWinner) out += rainbowSvg(14, 17);
+      return out;
+    }
+
+    var biggest = points.slice().sort(function(a,b){ return b.yearMargin - a.yearMargin; })[0];
+    var closest = points.slice().sort(function(a,b){ return a.yearMargin - b.yearMargin; })[0];
+
+    var finalPositive = finalP.gap >= 0;
+    var heldSinceIdx = 0;
+    for(var hi=0; hi<points.length; hi++){
+      if((points[hi].gap>=0) === finalPositive){
+        var unbroken = true;
+        for(var hj=hi; hj<points.length; hj++){ if((points[hj].gap>=0) !== finalPositive){ unbroken=false; break; } }
+        if(unbroken){ heldSinceIdx = hi; break; }
+      }
+    }
+    var heldSinceYear = points[heldSinceIdx].year;
+    var leadPhrase = heldSinceIdx===0
+      ? gcWinner+' heeft de leiding sinds het begin ('+heldSinceYear+') niet meer afgestaan'
+      : gcWinner+' pakte de leiding in '+heldSinceYear+' en heeft die sindsdien niet meer afgestaan';
+
+    var otherSubcats = heldSubcatLabels(otherName);
+    var subcatClause = otherSubcats.length
+      ? otherName+' wint wel '+subcatsWon[otherName]+' van de 4 subklassementen ('+otherSubcats.join(', ')+'), maar dat is niet genoeg om het gat te dichten.'
+      : gcWinner+' domineert ook de subklassementen.';
+
+    var factNote = leadPhrase+'. '+subcatClause+' '+gcWinner+' won '+yearsWon[gcWinner]+' van de 6 jaargangen tegenover '+yearsWon[otherName]+' voor '+otherName+'. Grootste verschil in één jaargang: '+biggest.yearMargin+' punten ('+biggest.year+') · krapste: '+closest.yearMargin+' punten ('+closest.year+').';
+
     var html = '<div class="section hero gc-hero">';
-    html += '<div class="hero-row"><span class="hero-winner">'+gcWinner+' leidt het eeuwig klassement '+rainbowSvg(24,29)+'</span>'+
-      '<span class="hero-score"><span class="lead">'+(gcWinner==='Niels'?finalP.cumNiels:finalP.cumMutti)+'</span> — '+(gcWinner==='Niels'?finalP.cumMutti:finalP.cumNiels)+' ('+(gcWinner==='Niels'?'Mutti':'Niels')+')</span></div>';
-    html += '<div class="hero-note">Optelsom van alle 6 jaargangen (2021 t/m 2026) — elke jaargang telt als één etappe. '+gcWinner+' leidt met '+gcMargin+' punten verschil.</div>';
+    html += '<div class="hero-row"><span class="hero-winner">'+gcWinner+heldJerseys(gcWinner)+' leidt het eeuwig klassement</span>'+
+      '<span class="hero-score"><span class="lead">'+(gcWinner==='Niels'?finalP.cumNiels:finalP.cumMutti)+'</span> — '+(gcWinner==='Niels'?finalP.cumMutti:finalP.cumNiels)+' ('+otherName+heldJerseys(otherName)+')</span></div>';
+    html += '<div class="hero-note">'+factNote+'</div>';
     html += '<div class="legend-riders"><span><span class="legend-dot" style="background:var(--niels)"></span>Niels</span><span><span class="legend-dot" style="background:var(--mutti)"></span>Mutti</span></div>';
     html += '</div>';
 
